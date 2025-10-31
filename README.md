@@ -53,7 +53,7 @@
 - Python 3.7 이상
 - 필요한 패키지:
   ```bash
-  pip install aiohttp python-socketio[asyncio] pillow pystray
+  pip install aiohttp python-socketio[asyncio]==4.6.1 pillow pystray
   ```
 
 ### 설치 단계
