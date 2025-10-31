@@ -1,11 +1,12 @@
 # cannyandachi - 캔냥닷치
 
 > 치지직 방송 채팅을 캐릭터로 시각화하는 방송 도구 & 프록시 클라이언트
+<img width="1280" height="420" alt="banner" src="https://github.com/user-attachments/assets/d4001b10-ff67-4bad-9d01-d0447159f601" />
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Godot](https://img.shields.io/badge/Godot-4.5-blue.svg) ![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)
 
-
-**캔낭닷치**는 치지직 방송에서 채팅 및 후원, 구독 정보를 받아와서, 캐릭터와 말풍선, 효과 등으로 시각화해주는 방송 오버레이 프로그램 및 Socket.IO 프록시 클라이언트입니다.
+**캔낭닷치**는 치지직 방송에서 채팅 및 후원, 구독 정보를 받아와서, 캐릭터와 말풍선, 효과 등으로 시각화해주는
+<br>방송 오버레이 프로그램 및 Socket.IO 프록시 클라이언트입니다.
 
 
 > [!TIP] 
@@ -39,8 +40,16 @@
 
 ## ⚡ 사용 및 설치
 
-최신 릴리즈를 다운로드받거나, 직접 소스코드를 내려받아 빌드하여 사용할 수 있습니다.
+![최신 릴리즈](https://github.com/BlacK-CHi/cannyadachi/releases/)를 다운로드받거나, 직접 소스코드를 내려받아 빌드하여 사용할 수 있습니다.
 <br>프록시 서버의 경우 소스를 내려받은 후 직접 터미널에서 실행할 수도 있습니다.
+
+### 채팅 오버레이
+치지직 개발자 센터에서 애플리케이션 등록 후 Client ID, Client Secret을 인증설정 탭에 기입한 후 로그인하여 애플리케이션에 로그인합니다.
+<br>로그인 후 웹브라우저에서 리디렉션된 주소 (``localhost:8080/?code=__________&state=____``) 에서 ``code=`` 뒷부분의 코드를 복사하여 인증 키 필드에 입력 후 인증을 진행해주세요.
+<br>Token 필드에 값이 자동으로 입력되었다면, 마지막으로 아래의 토글 스위치를 눌러 프록시 서버에 접속합니다.
+> [!IMPORTANT]
+> ``채팅 메시지 조회``, ``채팅 메시지 쓰기``, ``후원 조회``, ``구독 조회`` 4개의 API Scopes가 애플리케이션에 할당되어야 합니다.
+
 
 ### 프록시 서버 실행 (터미널 사용)
 
