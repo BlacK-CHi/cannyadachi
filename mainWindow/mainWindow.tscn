@@ -79,58 +79,76 @@ offset_right = 320.0
 offset_bottom = 720.0
 mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_rwh8v")
-current_tab = 2
+current_tab = 0
 tabs_position = 1
 
 [node name="인증 설정" type="Control" parent="UI/settingUI_L/OptionPanel"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 0
+
+[node name="ClientID" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 56.0
+offset_right = 296.0
+offset_bottom = 88.0
+placeholder_text = "클라이언트 ID"
+secret = true
+
+[node name="ClientSecret" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 96.0
+offset_right = 296.0
+offset_bottom = 128.0
+placeholder_text = "클라이언트 Secret"
+secret = true
 
 [node name="AccessKey" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 57.0
+offset_top = 192.0
 offset_right = 232.0
-offset_bottom = 88.0
-placeholder_text = "액세스 키를 입력하세요."
+offset_bottom = 223.0
+placeholder_text = "인증 키를 입력하세요."
 secret = true
 
 [node name="AccessToken" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 113.0
+offset_top = 248.0
 offset_right = 296.0
-offset_bottom = 144.0
+offset_bottom = 279.0
 placeholder_text = "액세스 토큰"
 secret = true
 
 [node name="RefreshToken" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 153.0
+offset_top = 288.0
 offset_right = 296.0
-offset_bottom = 184.0
+offset_bottom = 319.0
 placeholder_text = "갱신 토큰"
 secret = true
 
 [node name="ProxyAddress" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 256.0
+offset_top = 391.0
 offset_right = 296.0
-offset_bottom = 287.0
+offset_bottom = 422.0
 text = "ws://127.0.0.1:8765/ws"
 placeholder_text = "프록시 서버 주소"
 
 [node name="ProxyStatus" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 0.056034483
 anchor_bottom = 0.056034483
 offset_left = 24.0
-offset_top = 257.0
+offset_top = 392.0
 offset_right = 296.0
-offset_bottom = 288.0
+offset_bottom = 423.0
 placeholder_text = "연결 상태가 여기에 표시됩니다."
 editable = false
 metadata/_edit_use_anchors_ = true
@@ -138,36 +156,42 @@ metadata/_edit_use_anchors_ = true
 [node name="ChzzkLogin" type="Button" parent="UI/settingUI_L/OptionPanel/인증 설정"]
 layout_mode = 0
 offset_left = 240.0
-offset_top = 17.0
+offset_top = 136.0
 offset_right = 296.0
-offset_bottom = 48.0
+offset_bottom = 167.0
 text = "로그인"
-metadata/_edit_use_anchors_ = true
 
 [node name="ChzzkAuth" type="Button" parent="UI/settingUI_L/OptionPanel/인증 설정"]
 layout_mode = 0
 offset_left = 240.0
-offset_top = 57.0
+offset_top = 192.0
 offset_right = 296.0
-offset_bottom = 88.0
+offset_bottom = 223.0
 text = "인증"
 metadata/_edit_use_anchors_ = true
 
 [node name="ProxyToggle" type="CheckButton" parent="UI/settingUI_L/OptionPanel/인증 설정"]
 layout_mode = 0
 offset_left = 256.0
-offset_top = 217.0
+offset_top = 352.0
 offset_right = 300.0
-offset_bottom = 248.0
+offset_bottom = 383.0
 metadata/_edit_use_anchors_ = true
 
 [node name="HSeparator" type="HSeparator" parent="UI/settingUI_L/OptionPanel/인증 설정"]
 layout_mode = 0
 offset_left = 16.0
-offset_top = 193.0
+offset_top = 328.0
 offset_right = 304.0
-offset_bottom = 210.0
+offset_bottom = 345.0
 metadata/_edit_use_anchors_ = true
+
+[node name="HSeparator2" type="HSeparator" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 168.0
+offset_right = 304.0
+offset_bottom = 185.0
 
 [node name="Label" type="Label" parent="UI/settingUI_L/OptionPanel/인증 설정"]
 layout_mode = 0
@@ -183,9 +207,9 @@ metadata/_edit_use_anchors_ = true
 [node name="Label2" type="Label" parent="UI/settingUI_L/OptionPanel/인증 설정"]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 217.0
-offset_right = 161.0
-offset_bottom = 248.0
+offset_top = 352.0
+offset_right = 168.0
+offset_bottom = 383.0
 text = "프록시 서버에 연결"
 vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
@@ -506,6 +530,7 @@ offset_bottom = 200.0
 text = "말풍선 지속 시간"
 
 [node name="정보" type="Control" parent="UI/settingUI_L/OptionPanel"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 

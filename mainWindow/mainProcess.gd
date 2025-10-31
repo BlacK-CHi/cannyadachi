@@ -1,7 +1,7 @@
 extends Node2D
 
-@export var clientId: String
-@export var clientSecret: String
+var clientId: String
+var clientSecret: String
 var authCode: String
 var stateCode: String
 
@@ -272,6 +272,8 @@ func _draw() -> void:
 #------------------------------------------------------------------------------ #
 
 func _on_chzzkLogin_pressed() -> void:
+	clientId =  $"UI/settingUI_L/OptionPanel/인증 설정/ClientID".text
+	clientSecret = $"UI/settingUI_L/OptionPanel/인증 설정/ClientSecret".text
 	stateCode = randomState(8)
 	var loginUrl: String = getAuthUrl(clientId, stateCode)
 	
