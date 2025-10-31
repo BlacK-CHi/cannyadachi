@@ -1,0 +1,7 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+config.ini
+proxy.log
+.vscode/
+*.import

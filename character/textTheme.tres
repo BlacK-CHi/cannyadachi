@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://c1dvvepurn0hf"]
+
+[ext_resource type="FontFile" uid="uid://cx0ykx5w6gedh" path="res://mainWindow/dalmoori.ttf" id="1_hmcup"]
+
+[resource]
+default_font = ExtResource("1_hmcup")

@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://yschygwawkvg"]
+
+[ext_resource type="Theme" uid="uid://c1dvvepurn0hf" path="res://character/textTheme.tres" id="1_vh1q7"]
+[ext_resource type="Script" uid="uid://bm18yyxs21s3e" path="res://character/script/chatResize.gd" id="1_x2tjk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a8w7f"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(1, 1, 1, 1)
+border_width_bottom = 2
+border_color = Color(0.66, 0.66, 0.66, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 12
+
+[node name="chatBubble" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_bottom = 11
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_a8w7f")
+script = ExtResource("1_x2tjk")
+
+[node name="Chat" type="Label" parent="MarginContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("1_vh1q7")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+horizontal_alignment = 1
+autowrap_mode = 3
+max_lines_visible = 3

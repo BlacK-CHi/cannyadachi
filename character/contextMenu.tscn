@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://qbpkak13f6io"]
+
+[ext_resource type="Script" uid="uid://bteybg3tk0cow" path="res://character/script/contextMenu.gd" id="1_o22pj"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1jma6"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="ContextMenu" type="PanelContainer"]
+offset_left = -57.0
+offset_top = -183.0
+offset_right = 65.0
+offset_bottom = -86.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_1jma6")
+script = ExtResource("1_o22pj")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="canName" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "사용자명"
+
+[node name="canUID" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "UID"
+
+[node name="DespawnCannyan" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "캐릭터 디스폰"
+alignment = 0
+
+[node name="HideCannyan" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "사용자 숨기기"
+alignment = 0
+
+[connection signal="pressed" from="VBoxContainer/DespawnCannyan" to="." method="_on_despawn_cannyan_pressed"]
+[connection signal="pressed" from="VBoxContainer/HideCannyan" to="." method="_on_hide_cannyan_pressed"]

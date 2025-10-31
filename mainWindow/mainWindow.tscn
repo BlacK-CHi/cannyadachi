@@ -1,0 +1,846 @@
+[gd_scene load_steps=16 format=3 uid="uid://drqgct0vgytyp"]
+
+[ext_resource type="Script" uid="uid://dj0uneob3ff3q" path="res://mainWindow/mainProcess.gd" id="1_ymhah"]
+[ext_resource type="Script" uid="uid://bo5hj1v6gkp0d" path="res://mainWindow/settingUI_R.gd" id="2_2r6s8"]
+[ext_resource type="PackedScene" uid="uid://qbpkak13f6io" path="res://character/contextMenu.tscn" id="2_vnyth"]
+[ext_resource type="Script" uid="uid://dlalwc2jrhixu" path="res://mainWindow/settingUI_L.gd" id="2_wij7b"]
+[ext_resource type="Script" uid="uid://chsqjruj3gmvs" path="res://class/chzzkHandler.gd" id="3_hbe06"]
+[ext_resource type="Script" uid="uid://bnycan2nvfx7g" path="res://class/proxyClient.gd" id="4_p1o63"]
+[ext_resource type="Script" uid="uid://db71rhkwwph3j" path="res://mainWindow/tabCharacter.gd" id="4_rwh8v"]
+[ext_resource type="Script" uid="uid://dse1a34qu1hqq" path="res://class/userManager.gd" id="5_hbe06"]
+[ext_resource type="Texture2D" uid="uid://d3by5y34voyca" path="res://icon.png" id="5_m6ih3"]
+[ext_resource type="Script" uid="uid://qrh6xbjkydv3" path="res://mainWindow/tabUserList.gd" id="7_m6ih3"]
+[ext_resource type="Script" uid="uid://bvbyasrqd72ew" path="res://mainWindow/perfMonitor.gd" id="7_pisce"]
+[ext_resource type="Script" uid="uid://m4rwxeq18ry5" path="res://class/userDatabase.gd" id="9_2r6s8"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hbe06"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rwh8v"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_bottom_right = 20
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wij7b"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_bottom_left = 20
+corner_detail = 5
+
+[node name="mainWindow" type="Node2D"]
+script = ExtResource("1_ymhah")
+
+[node name="CharacterContainer" type="Node2D" parent="."]
+
+[node name="ground" type="StaticBody2D" parent="CharacterContainer"]
+position = Vector2(640, 720)
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterContainer/ground"]
+position = Vector2(3, 0)
+shape = SubResource("WorldBoundaryShape2D_hbe06")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="perfMonitor" type="VBoxContainer" parent="UI"]
+visible = false
+layout_mode = 0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 77.0
+offset_bottom = 45.0
+script = ExtResource("7_pisce")
+
+[node name="FPS" type="Label" parent="UI/perfMonitor"]
+layout_mode = 2
+theme_override_constants/outline_size = 8
+text = "FPS 00"
+
+[node name="settingUI_L" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_wij7b")
+
+[node name="OptionPanel" type="TabContainer" parent="UI/settingUI_L"]
+layout_mode = 1
+offset_right = 320.0
+offset_bottom = 720.0
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_rwh8v")
+current_tab = 2
+tabs_position = 1
+
+[node name="인증 설정" type="Control" parent="UI/settingUI_L/OptionPanel"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="AccessKey" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 57.0
+offset_right = 232.0
+offset_bottom = 88.0
+placeholder_text = "액세스 키를 입력하세요."
+secret = true
+
+[node name="AccessToken" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 113.0
+offset_right = 296.0
+offset_bottom = 144.0
+placeholder_text = "액세스 토큰"
+secret = true
+
+[node name="RefreshToken" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 153.0
+offset_right = 296.0
+offset_bottom = 184.0
+placeholder_text = "갱신 토큰"
+secret = true
+
+[node name="ProxyAddress" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 256.0
+offset_right = 296.0
+offset_bottom = 287.0
+text = "ws://127.0.0.1:8765/ws"
+placeholder_text = "프록시 서버 주소"
+
+[node name="ProxyStatus" type="LineEdit" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+anchor_top = 0.056034483
+anchor_bottom = 0.056034483
+offset_left = 24.0
+offset_top = 257.0
+offset_right = 296.0
+offset_bottom = 288.0
+placeholder_text = "연결 상태가 여기에 표시됩니다."
+editable = false
+metadata/_edit_use_anchors_ = true
+
+[node name="ChzzkLogin" type="Button" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 17.0
+offset_right = 296.0
+offset_bottom = 48.0
+text = "로그인"
+metadata/_edit_use_anchors_ = true
+
+[node name="ChzzkAuth" type="Button" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 57.0
+offset_right = 296.0
+offset_bottom = 88.0
+text = "인증"
+metadata/_edit_use_anchors_ = true
+
+[node name="ProxyToggle" type="CheckButton" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 217.0
+offset_right = 300.0
+offset_bottom = 248.0
+metadata/_edit_use_anchors_ = true
+
+[node name="HSeparator" type="HSeparator" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 193.0
+offset_right = 304.0
+offset_bottom = 210.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 17.0
+offset_right = 141.0
+offset_bottom = 48.0
+text = "치지직에 로그인"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Label2" type="Label" parent="UI/settingUI_L/OptionPanel/인증 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 217.0
+offset_right = 161.0
+offset_bottom = 248.0
+text = "프록시 서버에 연결"
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="캐릭터 설정" type="Control" parent="UI/settingUI_L/OptionPanel"]
+visible = false
+layout_mode = 2
+script = ExtResource("4_rwh8v")
+metadata/_tab_index = 1
+
+[node name="AFKToggle" type="CheckButton" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 16.0
+offset_right = 300.0
+offset_bottom = 47.0
+
+[node name="AFKPolling" type="HSlider" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 80.0
+offset_right = 296.0
+offset_bottom = 96.0
+min_value = 10.0
+max_value = 600.0
+step = 10.0
+value = 300.0
+
+[node name="AFKPollingTime" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 216.0
+offset_top = 56.0
+offset_right = 288.0
+offset_bottom = 72.0
+text = "00 초"
+horizontal_alignment = 2
+
+[node name="AFKDetection" type="HSlider" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 136.0
+offset_right = 296.0
+offset_bottom = 152.0
+min_value = 60.0
+max_value = 1800.0
+step = 60.0
+value = 600.0
+
+[node name="AFKDetectTime" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 112.0
+offset_right = 288.0
+offset_bottom = 128.0
+text = "00 초"
+horizontal_alignment = 2
+
+[node name="BubbleDuration" type="HSlider" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 208.0
+offset_right = 296.0
+offset_bottom = 224.0
+min_value = 1.0
+max_value = 10.0
+value = 3.0
+tick_count = 10
+ticks_on_borders = true
+
+[node name="BubbleTime" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 184.0
+offset_right = 288.0
+offset_bottom = 200.0
+text = "00 초"
+horizontal_alignment = 2
+
+[node name="BubbleStack" type="HSlider" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 264.0
+offset_right = 296.0
+offset_bottom = 280.0
+min_value = 1.0
+max_value = 10.0
+value = 3.0
+tick_count = 10
+ticks_on_borders = true
+
+[node name="BubbleCount" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 240.0
+offset_right = 288.0
+offset_bottom = 256.0
+text = "00 개"
+horizontal_alignment = 2
+
+[node name="Label10" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 240.0
+offset_right = 200.0
+offset_bottom = 256.0
+text = "채팅 표시 개수"
+
+[node name="MoveSpeed" type="HSlider" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 320.0
+offset_right = 296.0
+offset_bottom = 336.0
+min_value = 1.0
+max_value = 300.0
+value = 100.0
+
+[node name="MoveSpeedLabel" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 298.0
+offset_right = 288.0
+offset_bottom = 314.0
+text = "00 px/delta"
+horizontal_alignment = 2
+
+[node name="JumpPower" type="HSlider" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 370.0
+offset_right = 296.0
+offset_bottom = 386.0
+min_value = 1.0
+max_value = 1200.0
+value = 400.0
+
+[node name="jumpSpeedLabel" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 348.0
+offset_right = 288.0
+offset_bottom = 364.0
+text = "00 px/delta"
+horizontal_alignment = 2
+
+[node name="Gravity" type="HSlider" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 416.0
+offset_right = 296.0
+offset_bottom = 432.0
+min_value = 1.0
+max_value = 1800.0
+value = 980.0
+
+[node name="GravityLabel" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 394.0
+offset_right = 288.0
+offset_bottom = 410.0
+text = "00 px/delta"
+horizontal_alignment = 2
+
+[node name="resetDefault" type="Button" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 640.0
+offset_right = 296.0
+offset_bottom = 672.0
+text = "모두 기본값으로 되돌리기"
+
+[node name="spawnVisible" type="CheckButton" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 530.0
+offset_right = 300.0
+offset_bottom = 561.0
+
+[node name="spawnHeight" type="LineEdit" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 602.0
+offset_right = 152.0
+offset_bottom = 626.0
+text = "200.0"
+placeholder_text = "높이"
+
+[node name="spawnWidth" type="LineEdit" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 570.0
+offset_right = 152.0
+offset_bottom = 594.0
+text = "1280.0"
+placeholder_text = "너비"
+
+[node name="spawnOffsetX" type="LineEdit" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 570.0
+offset_right = 288.0
+offset_bottom = 594.0
+text = "0.0"
+placeholder_text = "X 오프셋"
+
+[node name="stateMin" type="LineEdit" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 482.0
+offset_right = 152.0
+offset_bottom = 506.0
+text = "2.0"
+placeholder_text = "최솟값"
+
+[node name="stateMax" type="LineEdit" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 482.0
+offset_right = 288.0
+offset_bottom = 506.0
+text = "5.0"
+placeholder_text = "최댓값"
+
+[node name="spawnOffsetY" type="LineEdit" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 602.0
+offset_right = 288.0
+offset_bottom = 626.0
+text = "0.0"
+placeholder_text = "Y 오프셋"
+
+[node name="HSeparator" type="HSeparator" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 160.0
+offset_right = 304.0
+offset_bottom = 177.0
+
+[node name="HSeparator2" type="HSeparator" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 514.0
+offset_right = 304.0
+offset_bottom = 531.0
+
+[node name="Label6" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 296.0
+offset_right = 200.0
+offset_bottom = 312.0
+text = "이동 속도"
+
+[node name="Label5" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 346.0
+offset_right = 200.0
+offset_bottom = 362.0
+text = "점프력"
+
+[node name="Label7" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 392.0
+offset_right = 200.0
+offset_bottom = 408.0
+text = "중력"
+
+[node name="Label8" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 538.0
+offset_right = 200.0
+offset_bottom = 554.0
+text = "스폰 위치 조절"
+
+[node name="Label9" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 458.0
+offset_right = 200.0
+offset_bottom = 474.0
+text = "IDLE <-> WALK 전환시점"
+
+[node name="Label3" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 112.0
+offset_right = 208.0
+offset_bottom = 128.0
+text = "감지 시간"
+
+[node name="Label2" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 56.0
+offset_right = 208.0
+offset_bottom = 72.0
+text = "잠수 확인 간격"
+
+[node name="Label" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 200.0
+offset_bottom = 40.0
+text = "비활성 사용자 자동 정리"
+
+[node name="Label4" type="Label" parent="UI/settingUI_L/OptionPanel/캐릭터 설정"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 184.0
+offset_right = 200.0
+offset_bottom = 200.0
+text = "말풍선 지속 시간"
+
+[node name="정보" type="Control" parent="UI/settingUI_L/OptionPanel"]
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="Icon" type="Sprite2D" parent="UI/settingUI_L/OptionPanel/정보"]
+position = Vector2(160, 120)
+texture = ExtResource("5_m6ih3")
+
+[node name="Label" type="Label" parent="UI/settingUI_L/OptionPanel/정보"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 192.0
+offset_right = 284.0
+offset_bottom = 216.0
+theme_override_font_sizes/font_size = 24
+text = "캔냥닷치 CannyanDachi"
+
+[node name="Label2" type="Label" parent="UI/settingUI_L/OptionPanel/정보"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 224.0
+offset_right = 256.0
+offset_bottom = 240.0
+text = "치지직 채팅 시각화 도구"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="UI/settingUI_L/OptionPanel/정보"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 248.0
+offset_right = 272.0
+offset_bottom = 264.0
+text = "v1.0.0_Open"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="UI/settingUI_L/OptionPanel/정보"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 272.0
+offset_right = 280.0
+offset_bottom = 282.0
+
+[node name="Label4" type="Label" parent="UI/settingUI_L/OptionPanel/정보"]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 296.0
+offset_right = 336.0
+offset_bottom = 388.0
+text = "© 2025 BlacK_CHi
+All rights reserved.
+
+이 프로그램 및 프로그램의 소스 코드는
+MIT 라이선스 하에 배포됩니다."
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="UI/settingUI_L/OptionPanel/정보"]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 416.0
+offset_right = 336.0
+offset_bottom = 508.0
+text = "🔗 GitHub
+https://github.com/BlacK-CHi
+
+🐦 Twitter
+@BKCHI_shelter
+@BKCHI_VTuber
+
+📻 CHZZK
+블랙치이
+
+✉️ Email
+fox@kitsub0.xyz"
+horizontal_alignment = 1
+
+[node name="settingUI_R" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_2r6s8")
+
+[node name="OptionPanel" type="TabContainer" parent="UI/settingUI_R"]
+layout_mode = 0
+offset_left = 960.0
+offset_right = 1280.0
+offset_bottom = 720.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_wij7b")
+tab_alignment = 2
+current_tab = 0
+tabs_position = 1
+
+[node name="사용자 관리" type="Control" parent="UI/settingUI_R/OptionPanel"]
+layout_mode = 2
+script = ExtResource("7_m6ih3")
+metadata/_tab_index = 0
+
+[node name="UserList" type="ItemList" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 24.0
+offset_right = 304.0
+offset_bottom = 279.0
+allow_reselect = true
+
+[node name="Nickname" type="LineEdit" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 336.0
+offset_right = 296.0
+offset_bottom = 368.0
+editable = false
+
+[node name="ChannelID" type="LineEdit" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 376.0
+offset_right = 296.0
+offset_bottom = 408.0
+editable = false
+
+[node name="RefreshButton" type="Button" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 264.0
+offset_top = 287.0
+offset_right = 294.0
+offset_bottom = 311.0
+text = "🔄"
+alignment = 0
+
+[node name="Despawn" type="Button" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 640.0
+offset_right = 152.0
+offset_bottom = 672.0
+text = "캐릭터 디스폰"
+
+[node name="Delete" type="Button" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 0
+offset_left = 168.0
+offset_top = 640.0
+offset_right = 296.0
+offset_bottom = 672.0
+text = "삭제하기"
+
+[node name="IsOnline" type="CheckBox" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 216.0
+offset_top = 416.0
+offset_right = 292.0
+offset_bottom = 440.0
+button_mask = 0
+text = "접속중"
+
+[node name="OnlineOnly" type="CheckBox" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 283.0
+offset_right = 220.0
+offset_bottom = 312.0
+text = "접속중인 사용자만 표시"
+
+[node name="HideUser" type="CheckButton" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 152.0
+offset_top = 528.0
+offset_right = 304.0
+offset_bottom = 560.0
+text = "사용자 숨기기"
+
+[node name="AutoRefresh" type="CheckButton" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 576.0
+offset_right = 144.0
+offset_bottom = 600.0
+text = "자동 갱신"
+
+[node name="ColorSelect" type="OptionButton" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 480.0
+offset_right = 296.0
+offset_bottom = 512.0
+
+[node name="SpriteSelect" type="OptionButton" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 480.0
+offset_right = 152.0
+offset_bottom = 512.0
+item_count = 1
+popup/item_0/text = "캔냥이"
+popup/item_0/id = 0
+
+[node name="RefreshTime" type="HSlider" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 608.0
+offset_right = 296.0
+offset_bottom = 624.0
+min_value = 1.0
+max_value = 60.0
+value = 30.0
+
+[node name="HSeparator" type="HSeparator" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 314.0
+offset_right = 296.0
+offset_bottom = 320.0
+
+[node name="HSeparator2" type="HSeparator" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 561.0
+offset_right = 296.0
+offset_bottom = 567.0
+
+[node name="Label" type="Label" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 336.0
+offset_right = 72.0
+offset_bottom = 368.0
+text = "닉네임"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label3" type="Label" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 456.0
+offset_right = 112.0
+offset_bottom = 472.0
+text = "아바타 종류"
+
+[node name="Label4" type="Label" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 456.0
+offset_right = 256.0
+offset_bottom = 472.0
+text = "색상 팔레트"
+
+[node name="RefRate" type="Label" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 576.0
+offset_right = 296.0
+offset_bottom = 600.0
+text = "00초마다"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="UI/settingUI_R/OptionPanel/사용자 관리"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 376.0
+offset_right = 72.0
+offset_bottom = 408.0
+text = "CID"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContextMenu" parent="UI" instance=ExtResource("2_vnyth")]
+visible = false
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 122.0
+offset_bottom = 97.0
+
+[node name="SUBCaller" type="HTTPRequest" parent="."]
+
+[node name="RESTCaller" type="HTTPRequest" parent="."]
+
+[node name="UserDatabase" type="Node" parent="."]
+script = ExtResource("9_2r6s8")
+metadata/_custom_type_script = "uid://m4rwxeq18ry5"
+
+[node name="ChatUserManager" type="Node" parent="."]
+script = ExtResource("5_hbe06")
+autoCleanup = false
+metadata/_custom_type_script = "uid://dse1a34qu1hqq"
+
+[node name="ProxyClient" type="Node" parent="."]
+script = ExtResource("4_p1o63")
+metadata/_custom_type_script = "uid://bnycan2nvfx7g"
+
+[node name="ChzzkHandler" type="Node" parent="."]
+script = ExtResource("3_hbe06")
+metadata/_custom_type_script = "uid://chsqjruj3gmvs"
+
+[connection signal="pressed" from="UI/settingUI_L/OptionPanel/인증 설정/ChzzkLogin" to="." method="_on_chzzkLogin_pressed"]
+[connection signal="pressed" from="UI/settingUI_L/OptionPanel/인증 설정/ChzzkAuth" to="." method="_on_chzzkAuth_pressed"]
+[connection signal="toggled" from="UI/settingUI_L/OptionPanel/인증 설정/ProxyToggle" to="." method="_on_proxy_toggled"]
+[connection signal="toggled" from="UI/settingUI_L/OptionPanel/캐릭터 설정/AFKToggle" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_cleanup_toggled"]
+[connection signal="value_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/AFKPolling" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_pollingRate_changed"]
+[connection signal="value_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/AFKPolling" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_afk_polling_value_changed"]
+[connection signal="value_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/AFKDetection" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_afk_detection_value_changed"]
+[connection signal="value_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/BubbleDuration" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_bubble_duration_value_changed"]
+[connection signal="value_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/BubbleStack" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_bubble_stack_value_changed"]
+[connection signal="value_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/MoveSpeed" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_move_speed_value_changed"]
+[connection signal="value_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/JumpPower" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_jump_power_value_changed"]
+[connection signal="value_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/Gravity" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_gravity_value_changed"]
+[connection signal="pressed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/resetDefault" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_reset_default_value"]
+[connection signal="toggled" from="UI/settingUI_L/OptionPanel/캐릭터 설정/spawnVisible" to="." method="_on_spawn_visible_toggled"]
+[connection signal="text_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/spawnHeight" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_spawn_height_text_changed"]
+[connection signal="text_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/spawnWidth" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_spawn_width_text_changed"]
+[connection signal="text_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/spawnOffsetX" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_spawn_offset_x_text_changed"]
+[connection signal="text_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/stateMin" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_state_min_text_changed"]
+[connection signal="text_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/stateMax" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_state_max_text_changed"]
+[connection signal="text_changed" from="UI/settingUI_L/OptionPanel/캐릭터 설정/spawnOffsetY" to="UI/settingUI_L/OptionPanel/캐릭터 설정" method="_on_spawn_offset_y_text_changed"]
+[connection signal="item_clicked" from="UI/settingUI_R/OptionPanel/사용자 관리/UserList" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_user_selected"]
+[connection signal="pressed" from="UI/settingUI_R/OptionPanel/사용자 관리/RefreshButton" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_refresh_button_pressed"]
+[connection signal="pressed" from="UI/settingUI_R/OptionPanel/사용자 관리/Despawn" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_despawn_pressed"]
+[connection signal="pressed" from="UI/settingUI_R/OptionPanel/사용자 관리/Delete" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_delete_pressed"]
+[connection signal="toggled" from="UI/settingUI_R/OptionPanel/사용자 관리/OnlineOnly" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_online_filter_toggled"]
+[connection signal="toggled" from="UI/settingUI_R/OptionPanel/사용자 관리/HideUser" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_hide_user_toggled"]
+[connection signal="toggled" from="UI/settingUI_R/OptionPanel/사용자 관리/AutoRefresh" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_auto_refresh_toggled"]
+[connection signal="item_selected" from="UI/settingUI_R/OptionPanel/사용자 관리/ColorSelect" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_color_selected"]
+[connection signal="value_changed" from="UI/settingUI_R/OptionPanel/사용자 관리/RefreshTime" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_refresh_time_value_changed"]
+[connection signal="request_completed" from="RESTCaller" to="." method="_on_RESTCaller_completed"]
+[connection signal="user_chat" from="ChatUserManager" to="." method="_on_user_chat"]
+[connection signal="user_joined" from="ChatUserManager" to="." method="_on_user_joined"]
+[connection signal="user_joined" from="ChatUserManager" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_user_joined"]
+[connection signal="user_left" from="ChatUserManager" to="." method="_on_user_left"]
+[connection signal="user_left" from="ChatUserManager" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_user_left"]
+[connection signal="user_updated" from="ChatUserManager" to="UI/settingUI_R/OptionPanel/사용자 관리" method="_on_user_updated"]
+[connection signal="connected" from="ProxyClient" to="." method="_on_proxy_connected"]
+[connection signal="disconnected" from="ProxyClient" to="." method="_on_proxy_disconnected"]
+[connection signal="message_received" from="ProxyClient" to="." method="_on_proxy_message"]
+[connection signal="on_chat_received" from="ChzzkHandler" to="." method="_on_chat_received"]
+[connection signal="on_system_message" from="ChzzkHandler" to="." method="_on_system_message"]
