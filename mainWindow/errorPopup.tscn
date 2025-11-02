@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://w5xo22jv68mu"]
+
+[ext_resource type="Script" uid="uid://c73jlow0bqfu" path="res://mainWindow/errorPopup.gd" id="1_0tqj6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0tqj6"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.21568628, 0.21568628, 0.21568628, 1)
+border_width_left = 5
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="ErrorPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -952.0
+offset_bottom = -632.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0tqj6")
+
+[node name="Control" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 384.0
+offset_bottom = 80.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_0tqj6")
+
+[node name="ErrorLevel" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 8.0
+offset_right = 56.0
+offset_bottom = 32.0
+text = "오류"
+vertical_alignment = 1
+
+[node name="ErrorText" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 32.0
+offset_right = 368.0
+offset_bottom = 80.0
+text = "정의되지 않은 오류입니다."
+vertical_alignment = 1
+autowrap_mode = 2

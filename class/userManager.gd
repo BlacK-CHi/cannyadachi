@@ -2,7 +2,7 @@ class_name ChatUserManager
 extends Node
 
 var users: Dictionary = {}
-var cannyanScene: PackedScene = preload("res://character/character.tscn")
+var characterScene: PackedScene = preload("res://character/character.tscn")
 
 signal user_joined(user: chatUser)
 signal user_updated(user: chatUser)
@@ -44,20 +44,40 @@ func get_user(CID: String, NAME: String):
 			user.hiddenUser = savedData["HIDDEN"]
 			if savedData.has("COLOR_HUE"): user.hueShift = savedData["COLOR_HUE"]
 			if savedData.has("COLOR_NAME"): user.colorName = savedData["COLOR_NAME"]
-		else: # 뉴비네요?
-			userDatabase.add_user(CID, NAME)
-			user.hueShift = -1.0 
-			user.colorName = "" 
+			if savedData.has("AVATAR"): user.avatarName = savedData["AVATAR"]
+		else:
+			var avatarDB = get_node_or_null("../AvatarDatabase")
+			if avatarDB:
+				var defaultAvatar = avatarDB.get_default_avatar()
+				userDatabase.add_user(CID, NAME, defaultAvatar)
+				user.hueShift = -1.0 
+				user.colorName = "" 
+				user.avatarName = defaultAvatar
 			
-		var cannyan = cannyanScene.instantiate()
-		user.characterNode = cannyan
+		var character = characterScene.instantiate()
+		user.characterNode = character
 		user_joined.emit(user)
 		
 		if user.hiddenUser:
 			user.characterNode.visible = false
 			
 		return user
+
+func apply_avatar(CID: String, avatar_name: String) -> void:
+	if users.has(CID):
+		var user = users[CID]
+		user.avatarName = avatar_name
 		
+		if user.characterNode and user.characterNode.has_method("change_avatar"):
+			var avatarDB = get_node_or_null("../AvatarDatabase")
+			if avatarDB:
+				var avatar_data = avatarDB.get_avatar_data(avatar_name)
+				if not avatar_data.is_empty():
+					user.characterNode.change_avatar(avatar_data["PATH"])
+		
+		userDatabase.update_user_avatar(CID, avatar_name)
+		user_updated.emit(user)
+
 func remove_user(CID: String):
 	if users.has(CID):
 		var user = users[CID]

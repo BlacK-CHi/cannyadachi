@@ -13,11 +13,14 @@ extends Control
 var menuEnabled = false
 var mouseOnPanel = false
 var windowFocused = false
+var viewportRect
 
 func _ready():
+	viewportRect = get_viewport_rect()
 	settingPanel.position = hidePosition
 	get_window().focus_exited.connect(_on_window_focus_exited)
 	get_window().focus_entered.connect(_on_window_focus_entered)
+	get_viewport().size_changed.connect(_on_viewport_size_changed)
 	
 func _process(delta: float) -> void:
 	var mousePos = get_viewport().get_mouse_position()
@@ -59,3 +62,15 @@ func _on_window_focus_entered() -> void:
 func _on_window_focus_exited() -> void:
 	windowFocused = false
 	hide_menu()
+
+func _on_viewport_size_changed() -> void:
+	viewportRect = get_viewport_rect()
+	
+	var panelY = (viewportRect.size.y - 720) * 8.0 / 15.0
+	hidePosition = Vector2(viewportRect.size.x, panelY)
+	showPosition = Vector2(viewportRect.size.x - $OptionPanel.size.x, panelY)
+	
+	if menuEnabled:
+		settingPanel.position = showPosition
+	else:
+		settingPanel.position = hidePosition

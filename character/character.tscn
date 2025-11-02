@@ -1,23 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://cnhplbnrissbk"]
+[gd_scene load_steps=7 format=3 uid="uid://cnhplbnrissbk"]
 
-[ext_resource type="Texture2D" uid="uid://362mdou5qqy8" path="res://character/sprite/fall_0.png" id="1_ethig"]
 [ext_resource type="Script" uid="uid://pgvvkt03gd4h" path="res://character/script/characterMain.gd" id="1_mckyr"]
-[ext_resource type="Texture2D" uid="uid://3rhajr4go5ri" path="res://character/sprite/idle_1.png" id="2_m0arh"]
 [ext_resource type="Shader" uid="uid://cxw6mrrth8j4e" path="res://character/script/hueShift.gdshader" id="2_uvy8k"]
-[ext_resource type="Texture2D" uid="uid://dki72nm8k1b4u" path="res://character/sprite/knock_1.png" id="3_a8w7f"]
-[ext_resource type="Texture2D" uid="uid://x1383480ves" path="res://character/sprite/idle_2.png" id="3_mckyr"]
-[ext_resource type="Texture2D" uid="uid://cwfayf1iy57qf" path="res://character/sprite/knock_2.png" id="4_1jma6"]
-[ext_resource type="Texture2D" uid="uid://bii0r61f0p55b" path="res://character/sprite/jump_1.png" id="4_a8w7f"]
-[ext_resource type="Texture2D" uid="uid://6ro20bwy5ntq" path="res://character/sprite/move_1_3.png" id="5_krck4"]
-[ext_resource type="Texture2D" uid="uid://c25781nqt3rqg" path="res://character/sprite/move_2.png" id="6_y5n0h"]
-[ext_resource type="Texture2D" uid="uid://te2uq7qm5e3q" path="res://character/sprite/sit_1.png" id="7_jsvmi"]
-[ext_resource type="Texture2D" uid="uid://dhvfu12708fk8" path="res://character/sprite/move_4.png" id="7_vrpop"]
-[ext_resource type="Texture2D" uid="uid://d0t5g0t2ywuuc" path="res://character/sprite/sit_2.png" id="8_4s1ds"]
-[ext_resource type="Texture2D" uid="uid://bjxbtxlji4w06" path="res://character/sprite/sit_3.png" id="9_eots3"]
+[ext_resource type="SpriteFrames" uid="uid://c4n6nlff3xs4t" path="res://character/default.res" id="3_hx151"]
 [ext_resource type="Theme" uid="uid://c1dvvepurn0hf" path="res://character/textTheme.tres" id="9_mckyr"]
-[ext_resource type="Texture2D" uid="uid://dy1na8qgp5mey" path="res://character/sprite/stand_1.png" id="11_uvy8k"]
-[ext_resource type="Texture2D" uid="uid://dnjo8e8bf5tyw" path="res://character/sprite/stand_2.png" id="12_5covf"]
-[ext_resource type="Texture2D" uid="uid://bttuwpbckgqhv" path="res://character/sprite/stand_3.png" id="13_f74ak"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5covf"]
 shader = ExtResource("2_uvy8k")
@@ -25,94 +11,8 @@ shader_parameter/hue = 0.0
 shader_parameter/saturation = 1.0
 shader_parameter/value = 1.0
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_4s1ds"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_ethig")
-}],
-"loop": true,
-"name": &"fall",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_a8w7f")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_1jma6")
-}],
-"loop": true,
-"name": &"grab",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_m0arh")
-}, {
-"duration": 1.0,
-"texture": ExtResource("3_mckyr")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 2.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("4_a8w7f")
-}],
-"loop": true,
-"name": &"jump",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("7_jsvmi")
-}, {
-"duration": 1.0,
-"texture": ExtResource("8_4s1ds")
-}, {
-"duration": 1.0,
-"texture": ExtResource("9_eots3")
-}],
-"loop": false,
-"name": &"sit",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("11_uvy8k")
-}, {
-"duration": 1.0,
-"texture": ExtResource("12_5covf")
-}, {
-"duration": 1.0,
-"texture": ExtResource("13_f74ak")
-}],
-"loop": false,
-"name": &"stand",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("5_krck4")
-}, {
-"duration": 1.0,
-"texture": ExtResource("6_y5n0h")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_krck4")
-}, {
-"duration": 1.0,
-"texture": ExtResource("7_vrpop")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 5.0
-}]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jsvmi"]
-size = Vector2(127, 82)
+size = Vector2(96, 96)
 
 [node name="cannyan" type="CharacterBody2D"]
 collision_mask = 2
@@ -121,15 +21,11 @@ script = ExtResource("1_mckyr")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_5covf")
-position = Vector2(0.6666641, 0)
-scale = Vector2(3, 3)
-sprite_frames = SubResource("SpriteFrames_4s1ds")
+scale = Vector2(2, 2)
+sprite_frames = ExtResource("3_hx151")
 animation = &"idle"
-offset = Vector2(0, -10)
 
 [node name="Collision" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(0.5, -1)
 shape = SubResource("RectangleShape2D_jsvmi")
 
 [node name="Nametag" type="Label" parent="."]
@@ -162,6 +58,11 @@ offset_bottom = -73.0
 grow_horizontal = 2
 theme_override_constants/separation = 15
 alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 48.0
+offset_bottom = 40.0
+theme_override_constants/margin_top = 9
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

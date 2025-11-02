@@ -11,20 +11,21 @@ config_version=5
 [application]
 
 config/name="캔낭닷치"
-config/version="1.0.0Open"
+config/version="1.1.0"
 run/main_scene="uid://drqgct0vgytyp"
 config/features=PackedStringArray("4.5", "Mobile")
-config/icon="uid://d3by5y34voyca"
+config/icon="uid://db4hoqx65n02m"
 
 [autoload]
 
 userConfig="*res://mainWindow/userConfig.gd"
+authInfo="*res://mainWindow/authInfo.gd"
+globalNode="*res://mainWindow/globalNode.gd"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
-window/size/resizable=false
 window/size/transparent=true
 window/per_pixel_transparency/allowed=true
 

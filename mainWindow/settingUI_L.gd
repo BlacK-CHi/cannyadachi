@@ -15,6 +15,7 @@ extends Control
 var menuEnabled = false									# 메뉴 활성화 (표시) 여부
 var mouseOnPanel = false								# 마우스가 패널 위에 있는지 확인
 var windowFocused = false								# 윈도우가 포커스되어 있는지 확인
+var viewportRect
 
 func _ready():
 	settingPanel.position = hidePosition				# 프로그램 실행 시 기본적으로 숨깁니다.
@@ -22,7 +23,8 @@ func _ready():
 	# 필요한 시그널 연결 (포커스 아웃, 포커스됨)
 	get_window().focus_exited.connect(_on_window_focus_exited)
 	get_window().focus_entered.connect(_on_window_focus_entered)
-
+	get_viewport().size_changed.connect(_on_viewport_size_changed)
+	
 func _process(delta: float) -> void:
 	var mousePos = get_viewport().get_mouse_position()			# 현재 마우스 위치 (Vector2i)
 	var mouseInWindow = get_viewport_rect().has_point(mousePos) # 현재 마우스가 뷰포트 내에 있는지 (bool)
@@ -64,3 +66,15 @@ func _on_window_focus_entered() -> void:
 func _on_window_focus_exited() -> void:
 	windowFocused = false
 	hide_menu()
+	
+func _on_viewport_size_changed() -> void:
+	viewportRect = get_viewport_rect()
+	
+	var panelY = (viewportRect.size.y - 720) * 8.0 / 15.0
+	hidePosition = Vector2(-$OptionPanel.size.x, panelY)
+	showPosition = Vector2(0, panelY)
+	
+	if menuEnabled:
+		settingPanel.position = showPosition
+	else:
+		settingPanel.position = hidePosition

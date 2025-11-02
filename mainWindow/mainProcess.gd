@@ -23,7 +23,7 @@ const eventSub: String = "https://openapi.chzzk.naver.com/open/v1/sessions/event
 @onready var chzzkHandler: ChzzkEventHandler = $ChzzkHandler
 @onready var userManager: ChatUserManager = $ChatUserManager
 @onready var characterContainer: Node2D = $CharacterContainer
-
+@onready var errorPopup = $UI/ErrorContainer
 
 var completeCallback: Callable
 var autoConnecting
@@ -102,8 +102,9 @@ func getSessionInfo(RESULT: int, RESP_CODE: int, header: PackedStringArray, BODY
 			print(str("JSON Parsing Error: ", rawResponse))
 	else:
 		print(str("HTTP Error %d: %s", RESP_CODE, rawResponse))
+		globalNode.errorPopup.pop_error("오류", "프록시 연결 중 오류가 발생했습니다.\n응답 코드 : %s" % RESP_CODE)
 		if autoConnecting:
-			$"settingUI/OptionPanel/인증 설정/ProxyToggle".button_pressed = false
+			$"UI/settingUI_L/OptionPanel/인증 설정/ProxyToggle".button_pressed = false
 			autoConnecting = false
 
 #------------------------------------------------------------------------------ #
@@ -148,6 +149,7 @@ func _on_proxy_message(message: Dictionary) -> void:
 			var status = message.get("status", "")
 			if status == "connected":
 				print("[PROXY] 치지직 API와 성공적으로 연결되었습니다.")
+				globalNode.errorPopup.pop_error("알림", "치지직 API와 정상적으로 연결되었습니다.\n즐거운 스트리밍 되세요!")
 
 			else:
 				print("프록시 연결 상태: " + status)
@@ -166,6 +168,7 @@ func _on_proxy_message(message: Dictionary) -> void:
 		"error":
 			var error_msg = message.get("message", "")
 			print("[PROXY] 오류: " + error_msg)
+			globalNode.errorPopup.pop_error("오류", error_msg)
 			if autoConnecting:
 				$"../Control/ProxyToggle".button_pressed = false
 				autoConnecting = false
@@ -275,6 +278,11 @@ func _on_chzzkLogin_pressed() -> void:
 	clientId =  $"UI/settingUI_L/OptionPanel/인증 설정/ClientID".text
 	clientSecret = $"UI/settingUI_L/OptionPanel/인증 설정/ClientSecret".text
 	stateCode = randomState(8)
+	
+	if clientId.is_empty() or clientSecret.is_empty():
+		errorPopup.pop_error("오류", "Client ID/Secret을 입력해주세요.")
+		return
+		
 	var loginUrl: String = getAuthUrl(clientId, stateCode)
 	
 	OS.shell_open(loginUrl)
@@ -289,15 +297,27 @@ func _on_chzzkAuth_pressed() -> void:
 		"state": stateCode,
 		"redirectUri": redirectUrl
 	}
+	
+	if tokenCode.is_empty():
+		errorPopup.pop_error("오류", "액세스 키가 입력되지 않았습니다.")
+		return
+		
 	restAPIRequest(token, requestBody, HTTPClient.METHOD_POST, Callable(self, "getAccessToken"))
 
 func _on_proxy_toggled(toggled_on: bool) -> void:
 	if toggled_on:
-		autoConnecting = true
-		print("세션 정보를 불러오는 중입니다...")
-		proxyClient.proxy_url = $"UI/settingUI_L/OptionPanel/인증 설정/ProxyAddress".text
-		proxyStatus.text = "📡 접속 중..."
-		restAPIRequest(session, {}, HTTPClient.METHOD_GET, Callable(self, "getSessionInfo"))
+		await get_tree().process_frame
+		await get_tree().process_frame
+		
+		if not _check_avatars():
+			$"UI/settingUI_L/OptionPanel/인증 설정/ProxyToggle".button_pressed = false
+			return
+		else:
+			autoConnecting = true
+			print("세션 정보를 불러오는 중입니다...")
+			proxyClient.proxy_url = $"UI/settingUI_L/OptionPanel/인증 설정/ProxyAddress".text
+			proxyStatus.text = "📡 접속 중..."
+			restAPIRequest(session, {}, HTTPClient.METHOD_GET, Callable(self, "getSessionInfo"))
 		
 	else:
 		autoConnecting = false
@@ -321,3 +341,14 @@ func _on_viewport_resized() -> void:
 func updateGroundPosition() -> void:
 	var viewportSize = get_viewport_rect()
 	$CharacterContainer/ground/CollisionShape2D.global_position.y = viewportSize.size.y
+
+func _check_avatars() -> bool:
+	var avatarDB = globalNode.avatarDatabase
+	
+	if avatarDB and avatarDB.get_all_avatars().is_empty():
+		globalNode.errorPopup.pop_error("오류", "등록된 아바타가 없습니다.\n연결 전 아바타를 먼저 추가해주세요.")
+		return false
+	if avatarDB and avatarDB.get_default_avatar().is_empty():
+		globalNode.errorPopup.pop_error("오류", "기본 아바타로 설정된 아바타가 없습니다.\n기본 아바타를 설정해주세요.")
+		return false
+	return true

@@ -4,7 +4,9 @@ extends Control
 @onready var onlineOnly = $OnlineOnly
 @onready var userManager = $"../../../../ChatUserManager"
 @onready var userDatabase = $"../../../../UserDatabase"
+@onready var avatarDatabase = $"../../../../AvatarDatabase" 
 @onready var colorSelector = $ColorSelect
+@onready var avatarSelector = $AvatarSelect
 var all_users: Dictionary = {}  # DB의 모든 사용자
 var autoRefreshStatus: bool = false
 var refreshTimer: Timer
@@ -24,6 +26,12 @@ const COLOR_PALETTE = {
 }
 
 func _ready() -> void:
+	colorSelector.disabled = true
+	avatarSelector.disabled = true
+	$Despawn.disabled = true
+	$Delete.disabled = true
+	$HideUser.disabled = true
+	
 	if userManager.userDatabase == null:
 		print("[UserList] 사용자 데이터베이스를 불러오는 중입니다...")
 		await get_tree().process_frame
@@ -31,6 +39,7 @@ func _ready() -> void:
 	load_all_users()
 	refresh_user_list()
 	setup_color_selector()
+	setup_avatar_selector()
 	load_settings_to_ui()
 
 func load_all_users() -> void:
@@ -69,8 +78,17 @@ func refresh_user_list() -> void:
 
 func setup_color_selector() -> void:
 	colorSelector.clear()
+	
 	for color_name in COLOR_PALETTE.keys():
 		colorSelector.add_item(color_name)
+
+func setup_avatar_selector() -> void:
+	avatarSelector.clear()
+	
+	var all_avatars = avatarDatabase.get_all_avatars()
+	for avatar_name in all_avatars.keys():
+		avatarSelector.add_item(avatar_name)
+		avatarSelector.set_item_metadata(avatarSelector.item_count - 1, avatar_name)
 
 func user_auto_refresh() -> void:
 	refreshTimer = Timer.new()
@@ -91,6 +109,13 @@ func update_color_selection(character: Dictionary) -> void:
 				colorSelector.select(i)
 				break
 				
+func update_avatar_selection(character: Dictionary) -> void:
+	var current_avatar = character.get("AVATAR", "")
+	for i in range(avatarSelector.item_count):
+		var metadata = avatarSelector.get_item_metadata(i)
+		if metadata == current_avatar:
+			avatarSelector.select(i)
+			return
 
 # ---------------------------------------------------------------------------- #
 
@@ -105,6 +130,7 @@ func show_user_details(CID: String) -> void:
 	$IsOnline.button_pressed = userManager.is_user_online(user["CID"])
 	$HideUser.button_pressed = user["HIDDEN"]
 	update_color_selection(user)
+	update_avatar_selection(user)
 
 # ---------------------------------------------------------------------------- #
 
@@ -121,6 +147,12 @@ func _on_user_selected(index: int, at_position: Vector2, mouse_button_index: int
 	var CID = userList.get_item_metadata(index)
 	var user = all_users[CID]
 	userCID = user["CID"]
+	
+	colorSelector.disabled = false
+	avatarSelector.disabled = false
+	$Despawn.disabled = false
+	$Delete.disabled = false
+	$HideUser.disabled = false
 	
 	print("선택된 사용자: %s (%s)" % [user["NAME"], CID])
 	# 여기서 색상 변경, 숨김 토글 등의 UI 표시
@@ -194,3 +226,17 @@ func _on_color_selected(index: int) -> void:
 		var user = userManager.users[userCID]
 		user.characterNode.set_color_by_name(selectedColor)
 	userDatabase.update_user_color(userCID, hueValue, selectedColor)
+
+func _on_avatar_selected(index: int) -> void:
+	if userCID.is_empty(): 
+		return 
+	
+	var selected_avatar = avatarSelector.get_item_metadata(index)
+	
+	if userManager.users.has(userCID):
+		userManager.apply_avatar(userCID, selected_avatar)
+	else:
+		userDatabase.update_user_avatar(userCID, selected_avatar)
+
+func _on_avatar_refresh() -> void:
+	setup_avatar_selector()

@@ -94,8 +94,6 @@ func _handle_chat(data: Dictionary) -> void:
 		"emojis": emojis,										# 채팅에 포함된 이모지 정보
 		"message_time": data.get("messageTime", 0)				# 채팅 메시지 타임스탬프
 	}
-	
-	print("[CHAT] %s(%s): %s" % [chat_data["nickname"], chat_data["sender_channel_id"], chat_data["message"]])
 	on_chat_received.emit(chat_data)
 
 # 치즈 후원 메시지 처리 함수 ──────────────────────────────────────────

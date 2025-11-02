@@ -8,6 +8,7 @@ var characterNode: CharacterBody2D
 var speechBubble: Control
 var hueShift: float
 var colorName: String
+var avatarName: String
 var hiddenUser: bool = false
 
 func _init(CID: String, NICK: String):

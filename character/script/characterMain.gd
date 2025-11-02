@@ -14,6 +14,8 @@ enum State { IDLE, WALK, JUMP, FALL, DANCE, SIT, GRAB, THROWN }
 @onready var sprite = $sprite
 @onready var chatBubble: PackedScene = preload("res://character/chatBubble.tscn")
 @onready var userDatabase = get_node("/root/mainWindow/UserDatabase")
+@onready var defaultSpriteSet = preload("res://character/default.res")
+
 var userData: chatUser
 
 # 이동 및 상태 관련 변수
@@ -60,6 +62,20 @@ func _setup(user: chatUser) -> void:
 	userData = user
 	nameTag.text = userData.nickname		# 이름표에 사용자 닉네임을 표시합니다.
 	
+	if userData.avatarName and userData.avatarName != "":
+		var avatarDB = globalNode.avatarDatabase
+		if avatarDB:
+			var avatar_data = avatarDB.get_avatar_data(userData.avatarName)
+			if not avatar_data.is_empty():
+				change_avatar(avatar_data["PATH"])
+	else:
+		var avatarDB = globalNode.avatarDatabase
+		if avatarDB:
+			var defaultAvatar = avatarDB.get_default_avatar()
+			var avatar_data = avatarDB.get_avatar_data(defaultAvatar)
+			if not avatar_data.is_empty():
+				change_avatar(avatar_data["PATH"])
+				
 	# 사용자가 설정한 색상이 있으면 해당 색상을, 없으면 랜덤 색상을 적용합니다.
 	if userData.colorName and userData.colorName != "":
 		set_color_by_name(userData.colorName)
@@ -319,6 +335,21 @@ func sprite_hue_shift(HUE: float):
 	
 	if userData:
 		userData.hueShift = HUE		# 색상 변경 후 사용자 정보에 Hue Shift 값을 저장합니다.
+
+func change_avatar(avatar_path: String) -> void:
+	if ResourceLoader.exists(avatar_path):
+		var avatar_scene = load(avatar_path)
+		
+		sprite.sprite_frames = avatar_scene
+		var texture = sprite.sprite_frames.get_frame_texture("idle", 0)
+		var texSize = texture.get_size() 
+		$Collision.shape.size.x = texSize.x * sprite.scale.x
+		$Collision.shape.size.y = texSize.y * sprite.scale.y
+		
+		print("[Character] 아바타 변경됨: %s" % avatar_path)
+	else:
+		push_error("[Character] 아바타 파일을 찾을 수 없음: %s" % avatar_path)
+		sprite.sprite_frames = defaultSpriteSet
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────── #
 
