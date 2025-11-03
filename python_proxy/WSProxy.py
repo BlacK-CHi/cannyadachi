@@ -28,7 +28,109 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
     
     return os.path.join(base_path, relative_path)
+
+
 # ────────────────────────────────────────── #
+
+AUTH_KEY_PAGE = """
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>캔냥닷치 로그인 성공</title>
+        <style>
+            html{
+                background-color: #89E9FF;
+            }
+            
+            .flexContainer{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .messageBox{
+                background-color: white;
+                padding: 20px;
+                width: fit-content;
+                border-radius: 20px;
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .message {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .accessCode{
+                text-align: center;
+                border: 2px solid #89E9FF;
+                border-radius: 10px;
+                text-align: center;
+                padding: 10px;
+            }
+
+            #copyBtn{
+                background-color: #89E9FF;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            #copyBtn:hover{
+                background-color: #61C8E1;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="flexContainer">
+            <div class="messageBox">
+                <div class="message">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJAAAACQCAYAAADnRuK4AAAACXBIWXMAADXUAAA11AFeZeUIAAACj0lEQVR4nO3dPW4TURhAUQ/yDpAi0SIWEa8CpYcavAFYQ9iASQ09YhUuXUdCtIhIrMHsYF5x5b/4nHYyk6fx1Ss+jT2LBQAAAADXYKoXeH33bl/O//3je17DNTv1/X9RTgYBkQiIREAkAiIREImASJajPxjNGT58/ZYW8LBYzF7/2udE537/7UAkAiIREImASAREIiASAZEs65zh001cweD6z31OdOn33w5EIiASAZEIiERAJAIiERDJNJpD3Pz5day1cIaeXr2ZPW4HIhEQiYBIBEQiIBIBkQiIZDma82w2myMthXO0Xq9nj9uBSAREIiASAZEIiERAJAIimXa73ezzQKM5AM/baA5oByIREImASAREIiASAZEIiGS6vb2dnQNtt9tjrYUztFqtZo/bgUgERCIgEgGRCIhEQCQCIpn2+/3sHOjL07GWwjka/Q61HYhEQCQCIhEQiYBIBEQiIJLp/u/8HKh6+Pg+nV/fi37pzv3+2YFIBEQiIBIBkQiIREAkAiJZ1guM5hR1DnHo65/apd8/OxCJgEgERCIgEgGRCIhEQCQCIhEQiYBIBEQiIBIBkQiIREAkw++Fff7X/sH9y3b+SH3e5dDfuzr180yH/vzsQCQCIhEQiYBIBEQiIBIBkRz894FO7dK/d3Xu7EAkAiIREImASAREIiASAZEM3xs/cvfTe+Uv2Y+38++FH7EDkQiIREAkAiIREImASAREMu12uzQHWq/Xs8e3W3OiU1qt5uc8m80mXd8ORCIgEgGRCIhEQCQCIhEQyfLx8TFdYDRHGM0hOKzR51M/fzsQiYBIBEQiIBIBkQiIREAk+b3xVX0e5dqNnsc6NDsQiYBIBEQiIBIBkQiIREAk/wHn/4u71lsufwAAAABJRU5ErkJggg==" alt="Cannyang Dutch Logo" width="72px"/>
+                    <p><b>치지직 애플리케이션에 로그인되었습니다!</b></p>
+                    <p>아래의 인증 키를 캔냥닷치 오버레이에 입력해주세요.</p>
+                
+                    <div class="accessCode">
+                        <p class="code" id="codeText" style="margin: 2px;">
+                            올바르지 않은 경로로 접근했습니다. 다시 시도해 주세요.
+                        </p>
+                    </div>
+                    <button id="copyBtn" style="margin-top: 10px;" onclick="copyCode()">인증 키 복사</button>
+            </div>
+        </div>
+
+        <script>
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get('code');
+            const codeText = document.getElementById('codeText');
+            const copyBtn = document.getElementById('copyBtn');
+            
+            if (code) {
+                codeText.textContent = code;
+                copyBtn.style.display = 'inline-block';
+            }
+            
+            function copyCode() {
+                navigator.clipboard.writeText(code).then(() => {
+                    alert('인증 키가 복사되었습니다!');
+                });
+            }
+        </script>
+    </body>
+</html>
+
+"""
+
 
 CONFIG_FILE = Path("config.ini")
 config = configparser.ConfigParser()
@@ -380,6 +482,10 @@ async def catch_all(event, *args):
 #                          웹소켓 서버 (프록시 서버) 시작
 # ────────────────────────────────────────── #
 
+
+async def auth_key_handler(request):
+    return web.Response(text=AUTH_KEY_PAGE, content_type='text/html')
+
 app = web.Application()
 app.router.add_get('/ws', wsServer.handleWS)
 
@@ -388,13 +494,21 @@ async def start_server():
     await runner.setup()
     site = web.TCPSite(runner, SERVER_HOST, SERVER_PORT) # 설정 파일을 참고하는 경우 기본값은 127.0.0.1:8765입니다.
     await site.start()
+
+    httpApp = web.Application()
+    httpApp.router.add_get('/', auth_key_handler)
+    http_runner = web.AppRunner(httpApp)
+    
+    await http_runner.setup()
+    http_site = web.TCPSite(http_runner, SERVER_HOST, 8080)
+    await http_site.start()
+    
     print("===================================================================")
     print("                캔따개 ─ WebSocket-Socket.IO 프록시               ")
     print("                Written by 블랙치이 (@BKCHI_shelter)               ")
     print("===================================================================")
     logger.info(f"웹소켓 서버가 시작되었습니다. (엔드포인트: ws://{SERVER_HOST}:{SERVER_PORT})")
-
-
+    logger.info(f"인증키 수신 페이지가 시작되었습니다. (주소: http://{SERVER_HOST}:8080)")
 
 # ────────────────────────────────────────── #
 #                          시스템 트레이 아이콘 설정 및 트레이 실행
@@ -429,7 +543,11 @@ def system_tray_setup():            # 시스템 트레이 아이콘 및 메뉴 �
     icon_image = load_icon_image()
     menu = pystray.Menu(
         pystray.MenuItem(
-            lambda _: f"서버 주소 : ws://{SERVER_HOST}:{SERVER_PORT}/ws",
+            lambda _: f"프록시 서버 주소 : ws://{SERVER_HOST}:{SERVER_PORT}/ws",
+            None, enabled=False
+        ),
+        pystray.MenuItem(
+            lambda _: f"HTTP 서버 주소 : http://{SERVER_HOST}:8080",
             None, enabled=False
         ),
         pystray.Menu.SEPARATOR,

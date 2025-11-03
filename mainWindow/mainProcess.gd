@@ -9,7 +9,7 @@ var accessToken: String
 var refreshToken: String
 var socketEndpoint: String
 var sessionKey: String
-var redirectUrl: String = "https://localhost:8080"
+var redirectUrl: String = "http://localhost:8080"
 
 const auth: String = "https://chzzk.naver.com/account-interlock"
 const token: String = "https://openapi.chzzk.naver.com/auth/v1/token"
