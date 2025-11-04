@@ -8,7 +8,6 @@ a = Analysis(
     datas=[('trayicon.png', '.')],
     hiddenimports=[],
     hookspath=[],
-    hooksconfig={},
     runtime_hooks=[],
     excludes=[],
     noarchive=False,
