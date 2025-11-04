@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://bnycan2nvfx7g" path="res://class/proxyClient.gd" id="4_p1o63"]
 [ext_resource type="Script" uid="uid://db71rhkwwph3j" path="res://mainWindow/tabCharacter.gd" id="4_rwh8v"]
 [ext_resource type="Script" uid="uid://dse1a34qu1hqq" path="res://class/userManager.gd" id="5_hbe06"]
-[ext_resource type="Texture2D" uid="uid://db4hoqx65n02m" path="res://icon.png" id="5_m6ih3"]
+[ext_resource type="Texture2D" uid="uid://d3by5y34voyca" path="res://icon.png" id="5_m6ih3"]
 [ext_resource type="Script" uid="uid://qrh6xbjkydv3" path="res://mainWindow/tabUserList.gd" id="7_m6ih3"]
 [ext_resource type="Script" uid="uid://bvbyasrqd72ew" path="res://mainWindow/perfMonitor.gd" id="7_pisce"]
 [ext_resource type="Script" uid="uid://cslajsaf8qqid" path="res://mainWindow/tabAvatar.gd" id="8_egm1s"]

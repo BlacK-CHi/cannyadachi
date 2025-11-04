@@ -343,8 +343,13 @@ func change_avatar(avatar_path: String) -> void:
 		sprite.sprite_frames = avatar_scene
 		var texture = sprite.sprite_frames.get_frame_texture("idle", 0)
 		var texSize = texture.get_size() 
+		var nametagOffset = -(texSize.y * sprite.scale.y / 2) - 16
+		var chatOffset = nametagOffset - 28
+		
 		$Collision.shape.size.x = texSize.x * sprite.scale.x
 		$Collision.shape.size.y = texSize.y * sprite.scale.y
+		$Nametag.position.y = nametagOffset
+		$ChatContainer.position.y = chatOffset
 		
 		print("[Character] 아바타 변경됨: %s" % avatar_path)
 	else:

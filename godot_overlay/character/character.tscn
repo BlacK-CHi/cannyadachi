@@ -35,11 +35,12 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -32.0
-offset_top = -81.999985
+offset_top = -71.0
 offset_right = 32.0
-offset_bottom = -58.999985
+offset_bottom = -48.0
 grow_horizontal = 2
 grow_vertical = 0
+pivot_offset = Vector2(32, 23)
 theme = ExtResource("9_mckyr")
 theme_override_colors/font_outline_color = Color(0.2784314, 0.32156864, 0.32941177, 1)
 theme_override_constants/outline_size = 9
@@ -51,18 +52,13 @@ vertical_alignment = 2
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -19.0
-offset_top = -113.0
-offset_right = 21.0
-offset_bottom = -73.0
+offset_left = -20.0
+offset_top = -111.0
+offset_right = 20.0
+offset_bottom = -71.0
 grow_horizontal = 2
 theme_override_constants/separation = 15
 alignment = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="."]
-offset_right = 48.0
-offset_bottom = 40.0
-theme_override_constants/margin_top = 9
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
