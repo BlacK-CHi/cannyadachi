@@ -15,14 +15,14 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Package Application
-        uses: JackMcKew/pyinstaller-action-windows@latest
+        uses: JackMcKew/pyinstaller-action-windows@v0.1.2
         with:
           path: python_proxy
           spec: python_proxy/WSProxy.spec
           
       
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: executable
           path: python_proxy/dist/cannyadachiProxy.exe
