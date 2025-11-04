@@ -37,53 +37,13 @@
 - 🖥️ **투명 창 지원**
 <br> 다른 애플리케이션 또는 OBS Studio 등에서 오버레이로 표시 가능
 
+---
+<div align="center">
 
-## ⚡ 사용 및 설치
+#### [프록시 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/proxy_v1.1.0) | [오버레이 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/overlay_v1.1.1)
+**🔌 [프록시 시작하기]()  • 🖥️ [오버레이 시작하기]()  • 👤 [사용자 관리]()  • 😊 [아바타 관리](https://github.com/BlacK-CHi/cannyadachi/blob/main/docs/avatar.md)**
 
-![최신 릴리즈](https://github.com/BlacK-CHi/cannyadachi/releases/)를 다운로드받거나, 직접 소스코드를 내려받아 빌드하여 사용할 수 있습니다.
-<br>프록시 서버의 경우 소스를 내려받은 후 직접 터미널에서 실행할 수도 있습니다.
-
-### 채팅 오버레이
-치지직 개발자 센터에서 애플리케이션 등록 후 Client ID, Client Secret을 인증설정 탭에 기입한 후 로그인하여 애플리케이션에 로그인합니다.
-<br>로그인 후 웹브라우저에서 리디렉션된 주소 (``localhost:8080/?code=__________&state=____``) 에서 ``code=`` 뒷부분의 코드를 복사하여 인증 키 필드에 입력 후 인증을 진행해주세요.
-<br>Token 필드에 값이 자동으로 입력되었다면, 마지막으로 아래의 토글 스위치를 눌러 프록시 서버에 접속합니다.
-> [!IMPORTANT]
-> ``채팅 메시지 조회``, ``채팅 메시지 쓰기``, ``후원 조회``, ``구독 조회`` 4개의 API Scopes가 애플리케이션에 할당되어야 합니다.
-
-
-### 프록시 서버 실행 (터미널 사용)
-
-1. git을 사용하여 이 저장소를 클론합니다.
-   ```bash
-   git clone https://github.com/BlacK-CHi/cannyadachi.git
-   cd cannyadachi
-   ```
-
-2. 프록시 실행에 필요한 Python 의존성 패키지를 설치합니다.
-   ```bash
-   cd python_proxy
-   pip install aiohttp python-socketio[asyncio]==4.6.1 pillow pystray
-   ```
-
-3. ``python_proxy/`` 내의 ``WSProxy.py``를 실행합니다.
-   ```bash
-   cd python_proxy
-   python WSProxy.py # 또는 WSProxy.exe
-   ```
-
-> [!IMPORTANT]
-> 기본적으로 프록시 서버는 ``ws://127.0.0.1:8765/ws`` 에서 실행됩니다.
-> <br>최초 실행 시 자동으로 실행 위치에 설정 파일(``config.ini``)이 생성되며, 해당 파일을 통해 프록시 주소 및 포트를 변경할 수 있습니다.
-
-  ```ini
-  [SERVER]
-  host = 127.0.0.1 <-- 해당 열에서 프록시 서버 주소를 바꿀 수 있습니다.
-  port = 8765
-
-  [LOGGING]
-  file = proxy.log
-  level = INFO
-  ```
+</div>
 
 ---
 
