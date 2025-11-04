@@ -48,6 +48,10 @@
 ---
 
 ## 🛠️ 빌드
+
+<detail>
+<summary>접기 / 펼치기</summary>
+ 
  ```bash
  git clone https://github.com/BlacK-CHi/cannyadachi.git
  cd cannyadachi
@@ -81,3 +85,6 @@ pip install -r requirements.txt
 cd python_proxy
 pyinstaller --onefile --noconsole --add-data "trayicon.png;." WSProxy.py
 ```
+
+
+</detail>
