@@ -1,0 +1,28 @@
+name: Proxy Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'python_proxy/*.py'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Package Application
+        uses: JackMcKew/pyinstaller-action-windows@latest
+        with:
+          path: python_proxy
+          spec: python_proxy/WSProxy.spec
+          
+      
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: executable
+          path: python_proxy/dist/cannyadachiProxy.exe
