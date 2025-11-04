@@ -40,14 +40,17 @@
 ---
 <div align="center">
 
-#### [프록시 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/proxy_v1.1.0) | [오버레이 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/overlay_v1.1.1)
-**🔌 [프록시 시작하기]()  • 🖥️ [오버레이 시작하기]()  • 👤 [사용자 관리]()  • 😊 [아바타 관리](https://github.com/BlacK-CHi/cannyadachi/blob/main/docs/avatar.md)**
+### [프록시 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/proxy_v1.1.0) | [오버레이 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/overlay_v1.1.1)
+**🔌 [빠른 시작](https://github.com/BlacK-CHi/cannyadachi/blob/main/docs/quickstart.md)  • 👤 [사용자 관리]()  • 😊 [아바타 관리](https://github.com/BlacK-CHi/cannyadachi/blob/main/docs/avatar.md)**
 
 </div>
 
 ---
 
 ## 🛠️ 빌드
+> [!WARNING]
+> 아직 빌드 관련 설명은 작성 중에 있습니다! 조금만 기다려주세요!
+
 <details>
 <summary>접기/펼치기</summary>
  
