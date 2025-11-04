@@ -18,7 +18,7 @@ jobs:
         uses: JackMcKew/pyinstaller-action-windows@v0.1.2
         with:
           path: python_proxy
-          spec: python_proxy/WSProxy.spec
+          spec: WSProxy.spec
           
       
       - name: Upload Artifact
