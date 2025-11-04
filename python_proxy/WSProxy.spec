@@ -36,5 +36,6 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
     icon=['trayicon.ico'],
-    version='versionInfo.txt'
+    version='versionInfo.txt',
+    onefile=True
 )
