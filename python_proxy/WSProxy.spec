@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='캔따개',
+    name='cannyadachiProxy',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
