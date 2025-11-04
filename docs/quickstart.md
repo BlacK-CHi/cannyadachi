@@ -85,10 +85,9 @@
 <br><br><img width="320" height="240" alt="image" src="https://github.com/user-attachments/assets/6e852350-0d20-4481-b3bb-1677e38df874" />
 
 
-``프록시에 접속하기`` 토글을 활성화합니다.
+``프록시 서버에 연결`` 토글을 활성화합니다.
 <br>접속이 완료되면 이미지처럼 ``치지직 API에 정상적으로 로그인되었습니다. 즐거운 스트리밍 되세요!`` 라는 알림이 표시되었다가 사라집니다.
 <br><br><img width="385" height="401" alt="image" src="https://github.com/user-attachments/assets/c455c449-eb2d-4274-bbc7-4a885d24e996" />
-
 
 > [!IMPORTANT]
 > 기본 아바타가 설정되어 있지 않은 경우 ``기본 아바타가 설정되어 있지 않습니다.`` 알림이 표시됩니다.
