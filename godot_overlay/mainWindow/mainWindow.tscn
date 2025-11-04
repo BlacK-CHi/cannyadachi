@@ -577,7 +577,7 @@ offset_left = 48.0
 offset_top = 248.0
 offset_right = 272.0
 offset_bottom = 264.0
-text = "v1.0.0_Open"
+text = "v1.1.1"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="UI/settingUI_L/OptionPanel/정보"]
@@ -636,11 +636,10 @@ offset_right = 1280.0
 offset_bottom = 720.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wij7b")
 tab_alignment = 2
-current_tab = 1
+current_tab = 0
 tabs_position = 1
 
 [node name="사용자 관리" type="Control" parent="UI/settingUI_R/OptionPanel"]
-visible = false
 layout_mode = 2
 script = ExtResource("7_m6ih3")
 metadata/_tab_index = 0
@@ -813,6 +812,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="아바타" type="Control" parent="UI/settingUI_R/OptionPanel"]
+visible = false
 layout_mode = 2
 script = ExtResource("8_egm1s")
 metadata/_tab_index = 1
@@ -994,7 +994,7 @@ offset_left = 16.0
 offset_top = 144.0
 offset_right = 160.0
 offset_bottom = 163.0
-text = "초당 프레임 수"
+text = "재생 속도"
 
 [node name="Label4" type="Label" parent="UI/settingUI_R/OptionPanel/아바타/NewAvatarWindow"]
 offset_left = 168.0

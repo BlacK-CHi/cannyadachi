@@ -10,6 +10,13 @@ const ANIMATION_NAME = [
 	"stand"
 ]
 
+const NON_LOOP_ANIMATION = [
+	"sit",
+	"stand",
+	"jump",
+	"fall"
+]
+
 
 @onready var atlasLoader = $AtlasLoader
 @onready var avatarSaver = $AvatarSaver
@@ -40,10 +47,11 @@ func generate_frames():
 	
 	for row in range(rows):
 		var animName = ANIMATION_NAME[row] if row < ANIMATION_NAME.size() else "row_" + str(row)
+		var isLoop = not (animName in NON_LOOP_ANIMATION)
 		
 		spriteSet.add_animation(animName)
 		spriteSet.set_animation_speed(animName, $FrameSec.value)
-		spriteSet.set_animation_loop(animName, true)
+		spriteSet.set_animation_loop(animName, isLoop)
 		
 		var frameTextures = []
 		

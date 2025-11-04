@@ -11,10 +11,10 @@ config_version=5
 [application]
 
 config/name="캔낭닷치"
-config/version="1.1.0"
+config/version="1.1.1"
 run/main_scene="uid://drqgct0vgytyp"
 config/features=PackedStringArray("4.5", "Mobile")
-config/icon="uid://db4hoqx65n02m"
+config/icon="uid://d3by5y34voyca"
 
 [autoload]
 
