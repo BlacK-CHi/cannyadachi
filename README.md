@@ -48,6 +48,22 @@
 </div>
 
 ---
+## ✅ TO-DO
+- [x] 사용자 관리 및 아바타 관리 기능
+- [x] 간단한 아바타 제작 도구 & 아바타 제작 가이드라인
+- [x] Access Key 발급간 커스텀 리디렉션 페이지 구현 
+- [ ] ProxyClient, ChzzkEventHandler 관련 API 명세 작성 (Wiki 활용)
+- [ ] 세부적인 아바타 생성 및 편집 도구 (메타데이터/애니메이션 편집)
+- [ ] 채팅 명령어로 아바타 변경 & 명령어에 응답하여 채팅 메시지 작성
+- [ ] 프록시+오버레이 실행 자동화 or Godot으로 Socket.IO v2.x 클라이언트 작성
+- [ ] SOOP API 또는 SSAPI 비공식 API 지원, API 전환 기능
+
+
+## 💬 잡설
+첫 오픈소스 프로젝트입니다!
+<br>군대에서 사이버지식정보방에서 우연찮게 Godot을 접하면서, 무언가 일단 완성해보고 싶었는데 마침 필요했던 프로그램이기도 해서 직접 개발해보기로 했습니다.
+<br>아직 많이 부족한 토이 프로젝트이지만, 많은 관심 부탁드립니다! 문제점이나 개선안에 대한 Issue/PR은 언제든지 환영입니다.
+
 
 ## 🛠️ 빌드
 > [!WARNING]
@@ -60,12 +76,8 @@
  git clone https://github.com/BlacK-CHi/cannyadachi.git
  cd cannyadachi
  ```
-### 채팅 오버레이 (Godot)
+### 채팅 오버레이
 Godot 4.5 이상 버전이 필요합니다.
-<br>치지직 개발자 센터에서 애플리케이션 등록 후 Client ID, Client Secret을 ``mainProcess.gd``에 기입하거나 파일 등을 통해 불러온 후 사용해야 합니다.
-
-> [!IMPORTANT]
-> ``채팅 메시지 조회``, ``채팅 메시지 쓰기``, ``후원 조회``, ``구독 조회`` 4개의 API Scopes가 애플리케이션에 할당되어야 합니다.
 
 
 ### 웹소켓 프록시 서버
@@ -75,18 +87,32 @@ Godot 4.5 이상 버전이 필요합니다.
 pip install -r requirements.txt
 ```
 - ``aiohttp`` >= 3.8.0
-- `python-socketio[asyncio_client]` == 4.6.1
+- __`python-socketio[asyncio_client]` == 4.6.1__
 - `Pillow` >= 9.0.0
 - `pystray` >= 0.19.0
 - `pyinstaller` >= 5.0.0 - 단일 실행 파일로 만들 경우에만 사용합니다.
 
->[!WARNING]
->``python-socketio``의 경우 치지직 Session API에 명세된 클라이언트 버전 호환을 위해 무조건 ``4.6.1`` 버전으로 설치해야 합니다! (Socket.IO v2.x)
+> ``python-socketio``의 경우 치지직 Session API에 명세된 클라이언트 버전 호환을 위해 무조건 ``4.6.1`` 버전으로 설치해야 합니다!
+> <br>(Socket.IO v2.x만 지원, [치지직 Session API 문서](https://chzzk.gitbook.io/chzzk/chzzk-api/session) 참조)
+
 
 #### 프록시 서버 단일 실행 파일로 빌드하기
-```bash
-# pip install pyinstaller
-cd python_proxy
-pyinstaller --onefile --noconsole --add-data "trayicon.png;." WSProxy.py
-```
+- 직접 명령어로 실행하거나:
+  ```bash
+  cd python_proxy
+  pyinstaller --onefile --noconsole --add-data "trayicon.png;." WSProxy.py
+  ```
+- 같이 포함된 ``WSProxy.spec`` 파일로 간단하게 빌드할 수 있습니다.
+  ```bash
+  pyinstaller WSProxy.spec
+  ```
+
 </details>
+
+---
+
+## 참고한 코드 및 리소스 출처
+- UI 메인 글꼴
+  <br>``dalmoori`` by RanolP [웹사이트](https://ranolp.github.io/dalmoori-font/) [GitHub](https://github.com/RanolP/dalmoori-font)
+- Hue Shift 쉐이더
+  <br>``HSV Adjustment`` by a1i-ce [웹사이트](https://godotshaders.com/shader/hsv-adjustment/)
