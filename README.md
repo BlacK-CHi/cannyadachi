@@ -1,9 +1,11 @@
 # cannyandachi - 캔냥닷치
-
-> 치지직 방송 채팅을 캐릭터로 시각화하는 방송 도구 & 프록시 클라이언트
+<div align="center">
 <img width="1280" height="420" alt="banner" src="https://github.com/user-attachments/assets/d4001b10-ff67-4bad-9d01-d0447159f601" />
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Godot](https://img.shields.io/badge/Godot-4.5-blue.svg) ![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)
+</div>
+
+> 치지직 방송 채팅을 캐릭터로 시각화하는 오버레이 프로그램 & WebSocket-Socket.IO 프록시
 
 **캔낭닷치**는 치지직 방송에서 채팅 및 후원, 구독 정보를 받아와서, 캐릭터와 말풍선, 효과 등으로 시각화해주는
 <br>방송 오버레이 프로그램 및 Socket.IO 프록시 클라이언트입니다.
