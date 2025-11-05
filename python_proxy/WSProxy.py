@@ -18,7 +18,7 @@ from PIL import Image
 import pystray
 import os
 
-# PyInstaller 파일 경로 문제 해결 ──────────────────────────────────── #
+# PyInstaller 파일 경로 문제 해결 ─────────────────────────────────── #
 def resource_path(relative_path):
     try:
         # PyInstaller가 생성한 임시 폴더 
