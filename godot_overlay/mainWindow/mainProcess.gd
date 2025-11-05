@@ -15,6 +15,7 @@ const auth: String = "https://chzzk.naver.com/account-interlock"
 const token: String = "https://openapi.chzzk.naver.com/auth/v1/token"
 const revoke: String = "https://openapi.chzzk.naver.com/auth/v1/token/revoke"
 const session: String = "https://openapi.chzzk.naver.com/open/v1/sessions/auth"
+const chat: String = "https://openapi.chzzk.naver.com/open/v1/chats/send"
 const eventSub: String = "https://openapi.chzzk.naver.com/open/v1/sessions/events"
 @onready var headers = ["User-Agent: Mozilla/5.0","Content-Type: application/json", "Authorization: Bearer CLIENT_SECRET"]
 @onready var proxyStatus = $"UI/settingUI_L/OptionPanel/인증 설정/ProxyStatus"
@@ -107,6 +108,15 @@ func getSessionInfo(RESULT: int, RESP_CODE: int, header: PackedStringArray, BODY
 			$"UI/settingUI_L/OptionPanel/인증 설정/ProxyToggle".button_pressed = false
 			autoConnecting = false
 
+func chatMessageSent(RESULT: int, RESP_CODE: int, header: PackedStringArray, BODY: PackedByteArray) -> void:
+	if RESULT != HTTPRequest.RESULT_SUCCESS: print("[REFRESH] HTTP Request Error: ", RESULT)
+	var rawResponse = BODY.get_string_from_utf8()
+	
+	if RESP_CODE == 200:
+		var response = JSON.parse_string(rawResponse)
+		var respContent = response["content"]
+		var msgId = respContent["messageId"]
+		print("[CHATBOT] 발송된 메시지 ID : %s" % msgId)
 #------------------------------------------------------------------------------ #
 
 func restAPIRequest(REQ_TO: String, BODY: Dictionary, METHOD: HTTPClient.Method, ON_COMPLETE: Callable) -> void:
@@ -131,6 +141,16 @@ func eventSubUnsub(ACTION: String, EVENT: String) -> void:
 	var error = request.request(subUrl, currentHeaders, HTTPClient.METHOD_POST)
 	if error != OK: print("[PUBSUB] SUb/Unsub Request Failed : ", error)
 
+func chatMessage(MESSAGE: String) -> void:
+	completeCallback = Callable(self, "chatMessageSent")
+	var request = $RESTCaller
+	var currentHeaders = [ "User-Agent: Mozilla/5.0", "Content-Type: application/json", "Authorization: Bearer " + accessToken]
+	var requestBody = { "message": MESSAGE }
+	var jsonPayload = JSON.stringify(requestBody)
+	
+	var error = request.request(chat, currentHeaders, HTTPClient.METHOD_POST, jsonPayload)
+	if error != OK: print("[CHAT] 채팅 발송 실패 : ", error)
+	
 #------------------------------------------------------------------------------ #
 
 func _on_proxy_message(message: Dictionary) -> void:
@@ -150,7 +170,7 @@ func _on_proxy_message(message: Dictionary) -> void:
 			if status == "connected":
 				print("[PROXY] 치지직 API와 성공적으로 연결되었습니다.")
 				globalNode.errorPopup.pop_error("알림", "치지직 API와 정상적으로 연결되었습니다.\n즐거운 스트리밍 되세요!")
-
+				chatMessage("[캔냥닷치] 캔냥닷치 오버레이 준비 완료!")
 			else:
 				print("프록시 연결 상태: " + status)
 				proxyStatus.text = "✅ 연결됨"
@@ -208,9 +228,12 @@ func _on_chat_received(chat_data: Dictionary) -> void:
 	var nickname = chat_data.get("nickname", "Unknown")
 	var senderId = chat_data.get("sender_channel_id", "000000")
 	var message = chat_data.get("message", "")
-	print("[CHAT] %s (%s): %s" % [nickname, senderId, message])
 	
-	userManager.handle_chat_message(senderId, nickname, message)
+	if message.to_lower().begins_with("[캔냥닷치]"): # 챗봇 메시지는 무시
+		pass
+	else:
+		print("[CHAT] %s (%s): %s" % [nickname, senderId, message])
+		userManager.handle_chat_message(senderId, nickname, message)
 
 func _on_cheese_received() -> void:
 	pass
@@ -326,6 +349,7 @@ func _on_proxy_toggled(toggled_on: bool) -> void:
 			proxyClient.disconnect_from_chzzk()
 			await get_tree().create_timer(0.3).timeout
 			proxyClient.disconnect_from_proxy()
+	
 
 func _on_RESTCaller_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if completeCallback:
@@ -336,6 +360,7 @@ func _on_spawn_visible_toggled(toggled_on: bool) -> void:
 
 func _on_viewport_resized() -> void:
 	updateGroundPosition()
+	
 #------------------------------------------------------------------------------ #
 
 func updateGroundPosition() -> void:

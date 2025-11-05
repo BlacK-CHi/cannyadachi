@@ -227,9 +227,10 @@ func _is_in_viewportBound() -> bool:
 # 채팅 말풍선을 표시합니다.
 func show_chatbubble(CHAT: String):
 	# 느낌표(!)로 시작하는 메시지는 명령어로 처리합니다.
-	if CHAT.to_lower().begins_with("!"):
+	if CHAT.to_lower().begins_with(">"):
 		handle_command(CHAT)
-		
+	if CHAT.to_lower().begins_with("[캔냥닷치]"):
+		return
 	else:
 		# 말풍선 인스턴스를 생성하고 화면에 추가합니다.
 		var bubble = chatBubble.instantiate()
@@ -268,14 +269,14 @@ func handle_command(CMD: String):
 	var command = parts[0]
 	
 	match command:
-		"!jump", "!점프":			# 캐릭터 점프 - 앉아있거나 공중에 있는 경우 적용되지 않음
+		">jump", ">점프":			# 캐릭터 점프 - 앉아있거나 공중에 있는 경우 적용되지 않음
 			if currentState == State.SIT: return
 			if is_on_floor():
 				velocity.y = -userConfig.jumpSpeed
 				currentState = State.JUMP
-		"!sit", "!앉아":				# 캐릭터 앉히기 - 지면에 있는 경우에만 실행되고, 대부분의 상태전환을 무시합니다.
+		">sit", ">앉아":				# 캐릭터 앉히기 - 지면에 있는 경우에만 실행되고, 대부분의 상태전환을 무시합니다.
 			if is_on_floor(): currentState = State.SIT
-		"!stand", "!일어나":			# 캐릭터 일으키기 - 앉은 상태에서 일어나는 애니메이션을 재생합니다.
+		">stand", ">일어나":			# 캐릭터 일으키기 - 앉은 상태에서 일어나는 애니메이션을 재생합니다.
 			if currentState == State.SIT and is_on_floor():
 				animationOverride = true	# 다른 애니메이션이 재생되지 않도록 잠금
 				$sprite.play("stand")
@@ -283,15 +284,16 @@ func handle_command(CMD: String):
 				currentState = State.IDLE
 				animationOverride = false 
 				_reset_state_timer()
-		"!color", "!색바꾸기":		# 색상 바꾸기 - 색상 이름이 주어지면 해당 색상으로 변경합니다.
+		">color", ">색바꾸기":		# 색상 바꾸기 - 색상 이름이 주어지면 해당 색상으로 변경합니다.
 			if parts.size() > 1:
 				set_color_by_name(parts[1])
 			else:
-				pass
-				# TODO: 지정되지 않은 색상이나 명령어만 입력한 경우 챗봇으로 메시지 출력
+				var colorNames = COLOR_PALETTE.keys()
+				globalNode.mainNode.chatMessage("[캔냥닷치] 사용할 수 있는 색상: %s" % str(colorNames))
+		">help", ">도움말":
+			globalNode.mainNode.chatMessage("[캔냥닷치] 사용할 수 있는 명령어: 점프, 앉아, 일어나, 색바꾸기, 도움말")
 		_:
-			pass
-			# TODO: 지정되지 않은 명령어인 경우 챗봇으로 오류 메시지 출력
+			globalNode.mainNode.chatMessage("[캔냥닷치] 알 수 없는 명령어입니다.")
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────── #
 
