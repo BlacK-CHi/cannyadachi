@@ -42,7 +42,7 @@
 ---
 <div align="center">
 
-### [프록시 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/proxy_v1.1.0) | [오버레이 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/overlay_v1.1.2)
+### [프록시 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/proxy_v1.1.0) | [오버레이 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/overlay_v1.2.0)
 **🔌 [빠른 시작](https://github.com/BlacK-CHi/cannyadachi/blob/main/docs/quickstart.md)  • 👤 [사용자 관리]()  • 😊 [아바타 관리](https://github.com/BlacK-CHi/cannyadachi/blob/main/docs/avatar.md)**
 
 </div>
@@ -54,7 +54,8 @@
 - [x] Access Key 발급간 커스텀 리디렉션 페이지 구현 
 - [ ] ProxyClient, ChzzkEventHandler 관련 API 명세 작성 (Wiki 활용)
 - [ ] 세부적인 아바타 생성 및 편집 도구 (메타데이터/애니메이션 편집)
-- [ ] 채팅 명령어로 아바타 변경 & 명령어에 응답하여 채팅 메시지 작성
+- [x] 채팅 명령어 & 명령어에 응답하여 채팅 메시지 작성
+- [ ] 채팅 명령어로 아바타 변경
 - [ ] 프록시+오버레이 실행 자동화 or Godot으로 Socket.IO v2.x 클라이언트 작성
 - [ ] SOOP API 또는 SSAPI 비공식 API 지원, API 전환 기능
 
