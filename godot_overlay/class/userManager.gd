@@ -56,6 +56,7 @@ func get_user(CID: String, NAME: String):
 			
 		var character = characterScene.instantiate()
 		user.characterNode = character
+		
 		user_joined.emit(user)
 		
 		if user.hiddenUser:

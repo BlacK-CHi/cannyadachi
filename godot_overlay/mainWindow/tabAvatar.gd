@@ -8,6 +8,7 @@ var selectedAvatarName = ""
 
 signal avatar_refresh()
 
+
 func _ready() -> void:
 	$SetAsDefault.disabled = true
 	$DeleteAvatar.disabled = true
@@ -19,6 +20,13 @@ func _ready() -> void:
 	await get_tree().process_frame
 	load_all_avatars()
 	refresh_avatar_list()
+	ui_load_settings()
+
+func _process(delta: float) -> void:
+	$ZoomLevel.text = "x" + str($ZoomSlider.value)
+
+func ui_load_settings() -> void:
+	$ZoomSlider.value = userConfig.avatarZoom
 	
 func load_all_avatars() -> void:
 	all_avatars = avatarDatabase.get_all_avatars()
@@ -94,3 +102,11 @@ func _on_remove_avatar_pressed() -> void:
 	$AvatarAuthor.text = ""
 	$AvatarDesc.text = ""
 	refresh_avatar_list()
+
+func _on_zoom_value_changed(value: float) -> void:
+	userConfig.avatarZoom = value
+	
+	var characterContainer = $"../../../../CharacterContainer"
+	for character in characterContainer.get_children():
+		if is_instance_valid(character) and character is CharacterBody2D:
+			character.change_scale(value)

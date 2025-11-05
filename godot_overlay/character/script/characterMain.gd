@@ -55,6 +55,7 @@ func _ready() -> void:
 	direction = [-1, 1].pick_random()		# 초기 이동 방향을 랜덤하게 설정합니다.
 	viewportRect = get_viewport_rect()		# 현재 뷰포트 크기를 저장합니다.
 	
+	change_scale(userConfig.avatarZoom)
 	get_viewport().size_changed.connect(_on_viewport_size_changed)
 
 # 사용자 데이터를 설정하고 캐릭터를 초기화합니다.
@@ -229,8 +230,10 @@ func show_chatbubble(CHAT: String):
 	# 느낌표(!)로 시작하는 메시지는 명령어로 처리합니다.
 	if CHAT.to_lower().begins_with(">"):
 		handle_command(CHAT)
-	if CHAT.to_lower().begins_with("[캔냥닷치]"):
+	
+	elif CHAT.to_lower().begins_with("🥫"):
 		return
+		
 	else:
 		# 말풍선 인스턴스를 생성하고 화면에 추가합니다.
 		var bubble = chatBubble.instantiate()
@@ -289,11 +292,11 @@ func handle_command(CMD: String):
 				set_color_by_name(parts[1])
 			else:
 				var colorNames = COLOR_PALETTE.keys()
-				globalNode.mainNode.chatMessage("[캔냥닷치] 사용할 수 있는 색상: %s" % str(colorNames))
+				globalNode.mainNode.chatMessage("🥫 사용할 수 있는 색상: %s" % str(colorNames))
 		">help", ">도움말":
-			globalNode.mainNode.chatMessage("[캔냥닷치] 사용할 수 있는 명령어: 점프, 앉아, 일어나, 색바꾸기, 도움말")
+			globalNode.mainNode.chatMessage("🥫 사용할 수 있는 명령어: 점프, 앉아, 일어나, 색바꾸기, 도움말")
 		_:
-			globalNode.mainNode.chatMessage("[캔냥닷치] 알 수 없는 명령어입니다.")
+			globalNode.mainNode.chatMessage("🥫 알 수 없는 명령어입니다.")
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────── #
 
@@ -338,25 +341,32 @@ func sprite_hue_shift(HUE: float):
 	if userData:
 		userData.hueShift = HUE		# 색상 변경 후 사용자 정보에 Hue Shift 값을 저장합니다.
 
+
 func change_avatar(avatar_path: String) -> void:
 	if ResourceLoader.exists(avatar_path):
 		var avatar_scene = load(avatar_path)
-		
+
 		sprite.sprite_frames = avatar_scene
-		var texture = sprite.sprite_frames.get_frame_texture("idle", 0)
-		var texSize = texture.get_size() 
-		var nametagOffset = -(texSize.y * sprite.scale.y / 2) - 16
-		var chatOffset = nametagOffset - 28
-		
-		$Collision.shape.size.x = texSize.x * sprite.scale.x
-		$Collision.shape.size.y = texSize.y * sprite.scale.y
-		$Nametag.position.y = nametagOffset
-		$ChatContainer.position.y = chatOffset
-		
+		change_scale(userConfig.avatarZoom)
+
 		print("[Character] 아바타 변경됨: %s" % avatar_path)
 	else:
 		push_error("[Character] 아바타 파일을 찾을 수 없음: %s" % avatar_path)
 		sprite.sprite_frames = defaultSpriteSet
+		change_scale(userConfig.avatarZoom)
+		
+func change_scale(scale_value: float) -> void:
+	var scaleTarget = Vector2(scale_value, scale_value)
+	
+	var texture = sprite.sprite_frames.get_frame_texture("idle", 0)
+	var texSize = texture.get_size() 
+	var nametagOffset = -(texSize.y * 2.0 * scaleTarget.y / 2) - 16
+	var chatOffset = nametagOffset - 28
+
+	$Collision.shape.size = texSize * 2.0 * scaleTarget.x
+	$Nametag.position.y = nametagOffset
+	$ChatContainer.position.y = chatOffset
+	$sprite.scale = 2.0 * scaleTarget
 
 # ──────────────────────────────────────────────────────────────────────────────────────────────── #
 
