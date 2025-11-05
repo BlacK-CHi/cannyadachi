@@ -25,4 +25,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: executable
-          path: python_proxy/dist/cannyadachiProxy.exe
+          path: python_proxy/dist/windows/cannyadachiProxy.exe
