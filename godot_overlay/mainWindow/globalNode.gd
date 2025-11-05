@@ -1,6 +1,7 @@
 extends Node
 
 @onready var errorPopup = get_node("/root/mainWindow/UI/ErrorContainer")
+@onready var mainNode = get_node("/root/mainWindow")
 @onready var userDatabase = get_node("/root/mainWindow/UserDatabase")
 @onready var avatarDatabase = get_node("/root/mainWindow/AvatarDatabase")
 @onready var userManager = get_node("/root/mainWindow/ChatUserManager")
