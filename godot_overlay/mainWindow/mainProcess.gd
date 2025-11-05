@@ -170,7 +170,7 @@ func _on_proxy_message(message: Dictionary) -> void:
 			if status == "connected":
 				print("[PROXY] 치지직 API와 성공적으로 연결되었습니다.")
 				globalNode.errorPopup.pop_error("알림", "치지직 API와 정상적으로 연결되었습니다.\n즐거운 스트리밍 되세요!")
-				chatMessage("[캔냥닷치] 캔냥닷치 오버레이 준비 완료!")
+				chatMessage("🥫 캔냥닷치 오버레이 준비 완료!")
 			else:
 				print("프록시 연결 상태: " + status)
 				proxyStatus.text = "✅ 연결됨"
@@ -229,7 +229,7 @@ func _on_chat_received(chat_data: Dictionary) -> void:
 	var senderId = chat_data.get("sender_channel_id", "000000")
 	var message = chat_data.get("message", "")
 	
-	if message.to_lower().begins_with("[캔냥닷치]"): # 챗봇 메시지는 무시
+	if message.to_lower().begins_with("🥫"): # 챗봇 메시지는 무시
 		pass
 	else:
 		print("[CHAT] %s (%s): %s" % [nickname, senderId, message])
@@ -377,3 +377,7 @@ func _check_avatars() -> bool:
 		globalNode.errorPopup.pop_error("오류", "기본 아바타로 설정된 아바타가 없습니다.\n기본 아바타를 설정해주세요.")
 		return false
 	return true
+
+
+func _on_zoom_value_changed(value: float) -> void:
+	pass # Replace with function body.

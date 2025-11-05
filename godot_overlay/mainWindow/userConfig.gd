@@ -94,6 +94,12 @@ var autoRefreshTime: float = 30.0:					# 사용자 정보 자동 새로고침 �
 			autoRefreshTime = value
 			save_settings()
 			
+var avatarZoom: float = 1.0:
+	set(value):
+		if avatarZoom != value:
+			avatarZoom = value
+			save_settings()
+			
 # ──────────────────────────────────────────────────────────────────────────── #	
 func _ready():
 	load_settings()
@@ -117,6 +123,7 @@ func save_settings():				# 설정 저장하기
 	config.set_value("spawn", "spawnOffsetX", spawnOffsetX)
 	config.set_value("spawn", "spawnOffsetY", spawnOffsetY)
 	config.set_value("manager", "autoRefreshTime", autoRefreshTime)
+	config.set_value("avatar", "avatarZoom", avatarZoom)
 	
 	var err = config.save(SAVE_PATH)
 	if err != OK:
@@ -144,3 +151,4 @@ func load_settings():				# 설정 불러오기
 	spawnOffsetX = config.get_value("spawn", "spawnOffsetX", 0.0)
 	spawnOffsetY = config.get_value("spawn", "spawnOffsetY", 0.0)
 	autoRefreshTime = config.get_value("manager", "autoRefreshTime", 30.0)
+	avatarZoom = config.get_value("avatar", "avatarZoom", 1.0)

@@ -636,10 +636,11 @@ offset_right = 1280.0
 offset_bottom = 720.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wij7b")
 tab_alignment = 2
-current_tab = 0
+current_tab = 1
 tabs_position = 1
 
 [node name="사용자 관리" type="Control" parent="UI/settingUI_R/OptionPanel"]
+visible = false
 layout_mode = 2
 script = ExtResource("7_m6ih3")
 metadata/_tab_index = 0
@@ -812,7 +813,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="아바타" type="Control" parent="UI/settingUI_R/OptionPanel"]
-visible = false
 layout_mode = 2
 script = ExtResource("8_egm1s")
 metadata/_tab_index = 1
@@ -865,6 +865,7 @@ offset_top = 104.0
 offset_right = 152.0
 offset_bottom = 131.0
 min_value = 1.0
+max_value = 128.0
 value = 32.0
 
 [node name="Height" type="SpinBox" parent="UI/settingUI_R/OptionPanel/아바타/NewAvatarWindow"]
@@ -873,6 +874,7 @@ offset_top = 104.0
 offset_right = 304.0
 offset_bottom = 131.0
 min_value = 1.0
+max_value = 128.0
 value = 32.0
 
 [node name="FrameSec" type="SpinBox" parent="UI/settingUI_R/OptionPanel/아바타/NewAvatarWindow"]
@@ -1082,15 +1084,15 @@ layout_mode = 0
 offset_left = 24.0
 offset_top = 416.0
 offset_right = 296.0
-offset_bottom = 528.0
+offset_bottom = 504.0
 editable = false
 
 [node name="SetAsDefault" type="CheckBox" parent="UI/settingUI_R/OptionPanel/아바타"]
 layout_mode = 0
 offset_left = 24.0
-offset_top = 536.0
+offset_top = 512.0
 offset_right = 196.0
-offset_bottom = 560.0
+offset_bottom = 536.0
 text = "기본 아바타로 설정"
 
 [node name="Label2" type="Label" parent="UI/settingUI_R/OptionPanel/아바타"]
@@ -1110,6 +1112,37 @@ offset_right = 128.0
 offset_bottom = 408.0
 text = "제작자"
 vertical_alignment = 1
+
+[node name="Label4" type="Label" parent="UI/settingUI_R/OptionPanel/아바타"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 576.0
+offset_right = 128.0
+offset_bottom = 608.0
+text = "아바타 표시 배율"
+vertical_alignment = 1
+
+[node name="ZoomLevel" type="Label" parent="UI/settingUI_R/OptionPanel/아바타"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 576.0
+offset_right = 296.0
+offset_bottom = 608.0
+text = "x0.0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ZoomSlider" type="HSlider" parent="UI/settingUI_R/OptionPanel/아바타"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 608.0
+offset_right = 296.0
+offset_bottom = 624.0
+min_value = 0.5
+max_value = 3.0
+step = 0.5
+value = 1.5
+tick_count = 6
 
 [node name="ContextMenu" parent="UI" instance=ExtResource("2_vnyth")]
 visible = false
@@ -1199,6 +1232,7 @@ metadata/_custom_type_script = "uid://chsqjruj3gmvs"
 [connection signal="pressed" from="UI/settingUI_R/OptionPanel/아바타/LoadAvatar" to="UI/settingUI_R/OptionPanel/아바타" method="_on_load_avatar_pressed"]
 [connection signal="pressed" from="UI/settingUI_R/OptionPanel/아바타/DeleteAvatar" to="UI/settingUI_R/OptionPanel/아바타" method="_on_remove_avatar_pressed"]
 [connection signal="toggled" from="UI/settingUI_R/OptionPanel/아바타/SetAsDefault" to="UI/settingUI_R/OptionPanel/아바타" method="_on_default_avatar_toggled"]
+[connection signal="value_changed" from="UI/settingUI_R/OptionPanel/아바타/ZoomSlider" to="UI/settingUI_R/OptionPanel/아바타" method="_on_zoom_value_changed"]
 [connection signal="request_completed" from="RESTCaller" to="." method="_on_RESTCaller_completed"]
 [connection signal="user_chat" from="ChatUserManager" to="." method="_on_user_chat"]
 [connection signal="user_joined" from="ChatUserManager" to="." method="_on_user_joined"]
