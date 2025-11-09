@@ -86,10 +86,11 @@ offset_right = 320.0
 offset_bottom = 720.0
 mouse_filter = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_rwh8v")
-current_tab = 0
+current_tab = 2
 tabs_position = 1
 
 [node name="인증 설정" type="Control" parent="UI/settingUI_L/OptionPanel"]
+visible = false
 layout_mode = 2
 script = ExtResource("4_f846m")
 metadata/_tab_index = 0
@@ -545,7 +546,6 @@ offset_bottom = 200.0
 text = "말풍선 지속 시간"
 
 [node name="정보" type="Control" parent="UI/settingUI_L/OptionPanel"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 2
 
@@ -577,7 +577,7 @@ offset_left = 48.0
 offset_top = 248.0
 offset_right = 272.0
 offset_bottom = 264.0
-text = "v1.2.1"
+text = "v1.2.2"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="UI/settingUI_L/OptionPanel/정보"]
