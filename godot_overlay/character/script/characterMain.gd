@@ -55,6 +55,9 @@ func _ready() -> void:
 	direction = [-1, 1].pick_random()		# 초기 이동 방향을 랜덤하게 설정합니다.
 	viewportRect = get_viewport_rect()		# 현재 뷰포트 크기를 저장합니다.
 	
+	if sprite.material:
+		sprite.material = sprite.material.duplicate()
+	
 	change_scale(userConfig.avatarZoom)
 	get_viewport().size_changed.connect(_on_viewport_size_changed)
 
@@ -289,7 +292,7 @@ func handle_command(CMD: String):
 				currentState = State.IDLE
 				animationOverride = false 
 				_reset_state_timer()
-		">color", ">색바꾸기":		# 색상 바꾸기 - 색상 이름이 주어지면 해당 색상으로 변경합니다.
+		">color", ">색바꾸기", ">색변경":		# 색상 바꾸기 - 색상 이름이 주어지면 해당 색상으로 변경합니다.
 			if parts.size() > 1:
 				set_color_by_name(parts[1])
 			else:
