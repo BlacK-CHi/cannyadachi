@@ -636,11 +636,10 @@ offset_right = 1280.0
 offset_bottom = 720.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_wij7b")
 tab_alignment = 2
-current_tab = 1
+current_tab = 0
 tabs_position = 1
 
 [node name="사용자 관리" type="Control" parent="UI/settingUI_R/OptionPanel"]
-visible = false
 layout_mode = 2
 script = ExtResource("7_m6ih3")
 metadata/_tab_index = 0
@@ -813,6 +812,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="아바타" type="Control" parent="UI/settingUI_R/OptionPanel"]
+visible = false
 layout_mode = 2
 script = ExtResource("8_egm1s")
 metadata/_tab_index = 1
