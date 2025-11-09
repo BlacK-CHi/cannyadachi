@@ -42,7 +42,7 @@
 ---
 <div align="center">
 
-### [프록시 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/proxy_v1.1.0) | [오버레이 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/overlay_v1.2.1)
+### [프록시 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/proxy_v1.1.0) | [오버레이 다운로드](https://github.com/BlacK-CHi/cannyadachi/releases/tag/overlay_v1.2.2)
 **🔌 [빠른 시작](https://github.com/BlacK-CHi/cannyadachi/blob/main/docs/quickstart.md)  • 👤 [사용자 관리]()  • 😊 [아바타 관리](https://github.com/BlacK-CHi/cannyadachi/blob/main/docs/avatar.md)**
 
 </div>
