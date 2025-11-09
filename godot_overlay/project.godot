@@ -11,9 +11,12 @@ config_version=5
 [application]
 
 config/name="캔낭닷치"
-config/version="1.2.0"
+config/version="1.2.1"
 run/main_scene="uid://drqgct0vgytyp"
 config/features=PackedStringArray("4.5", "Mobile")
+boot_splash/bg_color=Color(0.5372549, 0.9137255, 1, 1)
+boot_splash/fullsize=false
+boot_splash/image="uid://jcfrpanm4vpr"
 config/icon="uid://d3by5y34voyca"
 
 [autoload]
@@ -47,5 +50,4 @@ FPSCounter={
 
 [rendering]
 
-textures/canvas_textures/default_texture_filter=0
 renderer/rendering_method="mobile"

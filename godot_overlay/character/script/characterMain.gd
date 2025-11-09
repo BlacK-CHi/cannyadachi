@@ -226,19 +226,21 @@ func _is_in_viewportBound() -> bool:
 # ──────────────────────────────────────────────────────────────────────────────────────────────── #
 
 # 채팅 말풍선을 표시합니다.
-func show_chatbubble(CHAT: String):
-	# 느낌표(!)로 시작하는 메시지는 명령어로 처리합니다.
-	if CHAT.to_lower().begins_with(">"):
-		handle_command(CHAT)
+func show_chatbubble(DATA: Dictionary):
+	var message = DATA["message"]
 	
-	elif CHAT.to_lower().begins_with("🥫"):
+	# 느낌표(!)로 시작하는 메시지는 명령어로 처리합니다.
+	if message.to_lower().begins_with(">"):
+		handle_command(message)
+	
+	elif message.to_lower().begins_with("🥫"):
 		return
 		
 	else:
 		# 말풍선 인스턴스를 생성하고 화면에 추가합니다.
 		var bubble = chatBubble.instantiate()
 		$ChatContainer.add_child(bubble)
-		bubble.get_node("MarginContainer/PanelContainer").set_text(CHAT)
+		bubble.get_node("MarginContainer/PanelContainer/Chat").set_chat(DATA)
 		
 		# 말풍선을 페이드인 효과로 표시합니다.
 		bubble.modulate.a = 0.0

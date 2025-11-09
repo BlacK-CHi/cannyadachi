@@ -16,6 +16,7 @@ signal on_chat_received(chat_data: Dictionary)							#채팅 메시지 수신
 signal on_donation_received(donation_data: Dictionary)					#치즈 후원 메시지 수신
 signal on_subscription_received(subscription_data: Dictionary)			#정기구독 메시지 수신
 
+var emojiCache: Dictionary = {}
 var event_stats: Dictionary = {} # 이벤트 통계 (디버깅용)
 var session_key: String = ""
 
@@ -82,6 +83,9 @@ func _handle_chat(data: Dictionary) -> void:
 	var profile = data.get("profile", {})
 	var emojis = data.get("emojis", {})
 	
+	for emoji_id in emojis.keys():
+		await _cache_emoji(emoji_id, emojis[emoji_id])
+	
 	# 채팅 데이터를 딕셔너리 형태로 재구성합니다.
 	var chat_data = {
 		"channel_id": data.get("channelId", ""),				# 채널 ID (수신자, 스트리머)
@@ -95,6 +99,50 @@ func _handle_chat(data: Dictionary) -> void:
 		"message_time": data.get("messageTime", 0)				# 채팅 메시지 타임스탬프
 	}
 	on_chat_received.emit(chat_data)
+
+func _cache_emoji(emojiId: String, emojiUrl: String) -> void:
+	var cacheDirectory = "user://emoji_cache"
+	if not DirAccess.dir_exists_absolute(cacheDirectory):
+		DirAccess.make_dir_absolute(cacheDirectory)
+	
+	var isGif = emojiUrl.ends_with(".gif")
+	var cachePath = cacheDirectory + "/" + emojiId + ".png"
+	
+	# 이미 캐시되어 있으면 끝
+	if emojiId in emojiCache:
+		return
+	
+	var http_request = HTTPRequest.new()
+	add_child(http_request)
+	
+	http_request.request(emojiUrl)
+	
+	# request_completed 시그널을 await
+	var response = await http_request.request_completed
+	var response_code = response[1]
+	var body = response[3]
+	
+	if response_code == 200:
+		var image = Image.new()
+		
+		if isGif:
+			var gifEmoji = GifManager.sprite_frames_from_buffer(body)
+			if gifEmoji and gifEmoji.get_frame_count("gif") > 0:
+				var texture = gifEmoji.get_frame_texture("gif", 0)
+				if texture:
+					image = texture.get_image()
+		else:
+			image.load_png_from_buffer(body)
+		
+		if image:
+			image.save_png(cachePath)
+			var texture = ImageTexture.create_from_image(image)
+			emojiCache[emojiId] = texture
+			
+			var resource_path = cacheDirectory + "/" + emojiId + ".tres"
+			ResourceSaver.save(texture, resource_path)
+	
+	http_request.queue_free()
 
 # 치즈 후원 메시지 처리 함수 ──────────────────────────────────────────
 func _handle_donation(data: Dictionary) -> void:
