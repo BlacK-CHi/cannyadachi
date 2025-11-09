@@ -577,7 +577,7 @@ offset_left = 48.0
 offset_top = 248.0
 offset_right = 272.0
 offset_bottom = 264.0
-text = "v1.2.0"
+text = "v1.2.1"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="UI/settingUI_L/OptionPanel/정보"]
