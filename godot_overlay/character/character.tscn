@@ -20,6 +20,7 @@ input_pickable = true
 script = ExtResource("1_mckyr")
 
 [node name="sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 material = SubResource("ShaderMaterial_5covf")
 scale = Vector2(2, 2)
 sprite_frames = ExtResource("3_hx151")

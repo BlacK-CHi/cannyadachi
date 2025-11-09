@@ -233,7 +233,7 @@ func _on_chat_received(chat_data: Dictionary) -> void:
 		pass
 	else:
 		print("[CHAT] %s (%s): %s" % [nickname, senderId, message])
-		userManager.handle_chat_message(senderId, nickname, message)
+		userManager.handle_chat_message(senderId, nickname, chat_data)
 
 func _on_cheese_received() -> void:
 	pass
@@ -256,9 +256,9 @@ func _on_user_joined(user: chatUser) -> void:
 func _on_user_left(user: chatUser) -> void:
 	print("[CHAT] %s 님 타임아웃" % user.nickname)
 	
-func _on_user_chat(user: chatUser, message: String) -> void:
+func _on_user_chat(user: chatUser, data: Dictionary) -> void:
 	if user.characterNode:
-		user.characterNode.show_chatbubble(message)
+		user.characterNode.show_chatbubble(data)
 
 func _user_join_animation(cannyan: CharacterBody2D) -> void:
 	cannyan.modulate.a = 0.0

@@ -6,7 +6,7 @@ var characterScene: PackedScene = preload("res://character/character.tscn")
 
 signal user_joined(user: chatUser)
 signal user_updated(user: chatUser)
-signal user_chat(user: chatUser, message: String)
+signal user_chat(user: chatUser, data: Dictionary)
 signal user_left(user: chatUser)
 
 @onready var userDatabase = $"../UserDatabase"
@@ -17,9 +17,9 @@ func _ready() -> void:
 	if autoCleanup:		 #자동 정리 기능 활성화 시 작동
 		_setup_cleanup()
 
-func handle_chat_message(CID: String, NAME: String, CHAT: String):
+func handle_chat_message(CID: String, NAME: String, DATA: Dictionary):
 	var user = get_user(CID, NAME)
-	user_chat.emit(user, CHAT)
+	user_chat.emit(user, DATA)
 
 func get_user(CID: String, NAME: String):
 	if users.has(CID):
